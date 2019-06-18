@@ -19,9 +19,11 @@ var iAmAState = function()
 		//-switch to relevant idle animation
 		//-listen for response
 
-		//Once response received,
-		//-set flag false
-		activeState = //an appropriate state based on response
+		if(/*response received*/)
+		{
+			//-set flag false
+			activeState = //an appropriate state based on response
+		}
 	}
 };
 
