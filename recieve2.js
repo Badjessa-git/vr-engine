@@ -1,8 +1,8 @@
-
+//when server loads automatically loads default animation
+//will change animation via clicks
 var loc = false;
 var url = "atp:/confusion_Record.hfr";
 // default animation
-//change to FSM using distance from avatar as switch?
 function startAn(){
 	var PLAYBACK_CHANNEL = "playbackChannel";
 	Recording.loadRecording(url);
@@ -24,10 +24,7 @@ function startAn(){
 	
 }
 
-Script.update.connect(startAn); // believe the issue must lie in here 
-
-
-
+Script.update.connect(startAn);
 
 
 // Receiving script.
@@ -35,12 +32,9 @@ Messages.subscribe("101");
 Messages.messageReceived.connect(play);
 
 
-
 function play (channel, data, sender, localOnly){
 	loc = true;
-	//var PLAYBACK_CHANNEL = "playbackChannel";
 		
-	
 		if(data === "hi"){
 			url = "atp:/fall.hfr";
 		}
@@ -49,17 +43,5 @@ function play (channel, data, sender, localOnly){
 			url = "atp:/meh.hfr";
 		}
 
-		/*Recording.loadRecording(url);
-		Recording.setPlayFromCurrentLocation(true);
-		Recording.setPlayerUseDisplayName(true);
-		Recording.setPlayerUseAttachments(true);
-		Recording.setPlayerLoop(false);
-		Agent.isAvatar = true;
-		
-		
-		Recording.setPlayerTime(0.0);
-		Recording.startPlaying();		
 
-		Script.update.connect(update);
-	*/
 }
