@@ -51,7 +51,7 @@ var state1 = function()
 		{
 			//TODO:switch to relevant idle animation
 			//listen for response
-			Messages.messageReceived.connect(function()
+			Messages.messageReceived.connect(function(channel, data, sender, localOnly)
 			{
 				flag = false;
 				
