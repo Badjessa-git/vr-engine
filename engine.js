@@ -7,6 +7,9 @@ var secondAnimationURL = "atp:/20190618-182303.hfr";
 //Specify boolean flag to keep track of whether animation has ended
 var flag = false;
 
+//Subscribe to message channel
+Messages.subscribe("channel");
+
 //function to play animation (TODO:only play once)
 function play(AnimationURL)
 {
@@ -37,26 +40,28 @@ var state1 = function()
 {
 	//animation logic
 	play(firstAnimationURL);
-	//After animation has played once, <---This part is the problem child
 	
-	menuSpawner();
-	
-	//Set flag to true to indicate that idle animation should begin
-	flag = true;
-	while(flag)
+	if(!Recording.isPlaying())
 	{
-		//-switch to relevant idle animation
-		//-listen for response
-
-		if(/*response received*/)
+		menuSpawner();
+		
+		//Set flag to true to indicate that idle animation should begin
+		flag = true;
+		while(flag)
 		{
-			flag = false;
-			activeState = //an appropriate state based on response
+			//TODO:switch to relevant idle animation
+			//listen for response
+			Messages.messageReceived.connect(function()
+			{
+				flag = false;
+				
+				//Change activeState to appropriate state based on response
+			});
 		}
 	}
 };
 
-var state2 = //similar function to above
+//var state2 = //similar function to above
 //var state3 = //similar funciton to above
 //etc
 
