@@ -1,21 +1,24 @@
 //Finite State Machine
 
-//Specify urls for the recordings
+//Urls for animations
 var firstAnimationURL = "atp:/20190618-182156.hfr";
 var secondAnimationURL = "atp:/20190618-182303.hfr";
+
+var activeAnimationURL;
+var idleAnimationURL;
 
 //Specify boolean flag to keep track of whether animation has ended
 var flag = false;
 
 //Subscribe to message channel
-Messages.subscribe("channel");
+Messages.subscribe("engine");
 
-//function to play animation (TODO:only play once)
-function play(AnimationURL)
+//play animation
+function play()
 {
 	var PLAYBACK_CHANNEL = "playbackChannel";
 
-	Recording.loadRecording(AnimationURL);
+	Recording.loadRecording(activeAnimationURL);
 	
 	Recording.setPlayFromCurrentLocation(false);
 	Recording.setPlayerUseDisplayName(true);
@@ -25,40 +28,34 @@ function play(AnimationURL)
 	Recording.setPlayerUseSkeletonModel(true);
 	Agent.isAvatar = true;
 	
+	if (Recording.isPlaying()) 
+	{
+		Script.update.disconnect(play);
+		print("disconnected animation player");
+
+	}
+	Recording.setPlayerTime(0.0);
 	Recording.startPlaying();
 }
 
-//function to spawn menu (TODO: spawn proper UI stuffs. Read aloud?)
+//spawn menu (TODO: spawn proper UI stuffs. Read aloud?)
 function menuSpawner()
 {
 	//Send message to entity creator script
+	Messages.sendMessage("entitySpawner", "Animation over!");
+	print("menu spawner contacted");
 }
-
+//----------------------------------------------------------------------------------------------------------------
 //state function declarations
 
 var state1 = function()
 {
 	//animation logic
-	play(firstAnimationURL);
-	
-	if(!Recording.isPlaying())
-	{
-		menuSpawner();
-		
-		//Set flag to true to indicate that idle animation should begin
-		flag = true;
-		while(flag)
-		{
-			//TODO:switch to relevant idle animation
-			//listen for response
-			Messages.messageReceived.connect(function(channel, data, sender, localOnly)
-			{
-				flag = false;
-				
-				//Change activeState to appropriate state based on response
-			});
-		}
-	}
+	activeAnimationURL = firstAnimationURL;
+	Script.update.connect(play);
+	print("connected animation player");
+
+	menuSpawner();
 };
 
 //var state2 = //similar function to above
@@ -73,4 +70,5 @@ var activeState = state1;
 while(true)
 {
 	activeState();
+	break;
 }
