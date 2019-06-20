@@ -10,9 +10,8 @@ function startAn(){
 	Recording.setPlayFromCurrentLocation(loc);
 	Recording.setPlayerUseDisplayName(true);
 	Recording.setPlayerUseAttachments(true);
-	Recording.setPlayerUseHeadModel(false);
 	Recording.setPlayerLoop(false);
-	Recording.setPlayerUseSkeletonModel(true);
+
 
 	Agent.isAvatar = true;
 	if (!Recording.isPlaying()) 
@@ -34,6 +33,7 @@ Messages.messageReceived.connect(play);
 
 function play (channel, data, sender, localOnly){
 	loc = true;
+	Recording.setPlayerTime(0.0);
 		
 		if(data === "hi"){
 			url = "atp:/fall.hfr";
