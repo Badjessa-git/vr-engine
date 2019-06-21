@@ -1,7 +1,7 @@
 //Finite State Machine
 
 //Urls for animations
-var firstAnimationURL = "atp:/20190618-182156.hfr";
+var firstAnimationURL = "atp:/20190606-185600.hfr";
 var secondAnimationURL = "atp:/20190618-182303.hfr";
 
 var activeAnimationURL;
@@ -36,6 +36,7 @@ function play()
 	}
 	Recording.setPlayerTime(0.0);
 	Recording.startPlaying();
+	print(Recording.playerLength());
 }
 
 //spawn menu (TODO: spawn proper UI stuffs. Read aloud?)
