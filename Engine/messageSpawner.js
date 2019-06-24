@@ -3,12 +3,6 @@
 //This channel will receive text values to display in text boxes
 Messages.subscribe("entitySpawner");
 
-//This channel will receive ids of text boxes that need to be deleted
-Messages.subscribe("deleterChannel");
-
-//This channel will receive a notice that a text box has been selected
-Messages.subscribe("engine");
-
 //Set default text
 var text = "Hello, world!";
 //Messages.messageReceived.connect(function(channel, data, sender, localOnly)
@@ -31,20 +25,6 @@ var text = "Hello, world!";
 	print("text spawn attempted");
 	
 Messages.messageReceived.connect(function (channel, message, senderID, localOnly) {
-    if(channel === "entitySpawner")
-	{
-		//All entity creation logic will go here
-	}
-	else if(channel === "deleterChannel")
-	{
-		//Deletes each entity according to the id found in the message
-		Entities.deleteEntity(message);
-	}
-	else if(channel === "engine")
-	{
-		//This picks up that a message has been selected,
-		//and prompts all textboxes to send their ids for deletion
-		Messages.sendMessage("getMenuIDs","");
-	}
+	//All entity creation logic goes here
 });
 //});
