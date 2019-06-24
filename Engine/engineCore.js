@@ -40,11 +40,21 @@ function play()
 }
 
 //spawn menu (TODO: spawn proper UI stuffs. Read aloud?)
-function menuSpawner()
+function menuSpawner(option1, option2, option3)
 {
+	//compile array
+	var array = {option1, option2, option3};
+	
 	//Send message to entity creator script
-	Messages.sendMessage("entitySpawner", "Animation over!");
+	Messages.sendData("entitySpawner", array.buffer);
 	print("menu spawner contacted");
+}
+
+//Can store user selection as received from textBoxScript
+Messages.messageReceived.connect(function(channel, message, senderID, localOnly)
+{
+	//for now, just print
+	print(message);
 }
 //----------------------------------------------------------------------------------------------------------------
 //state function declarations
@@ -52,11 +62,12 @@ function menuSpawner()
 var state1 = function()
 {
 	//animation logic
+	/*
 	activeAnimationURL = firstAnimationURL;
 	Script.update.connect(play);
 	print("connected animation player");
-
-	menuSpawner();
+	*/
+	menuSpawner("From the weakness","of the mind","Omnissiah save us");
 };
 
 //var state2 = //similar function to above
