@@ -4,16 +4,18 @@
 Messages.subscribe("entitySpawner");
 
 //Set default text
-var text = "Hello, world!";
-//Messages.messageReceived.connect(function(channel, data, sender, localOnly)
-//{
+var text1 = "Hello, world!";
+var text2 = "Evening, world!";
+var text3 = "Goodbye, world!";
+	
+Messages.dataReceived.connect(function (channel, data, senderID, localOnly) {
 	var rotation = MyAvatar.orientation;
 	var position = Vec3.sum(MyAvatar.position, Quat.getFront(rotation));
 	//var text = data;
 	
-	var properties = {
+	var properties1 = {
 		type: "Text",
-		text: text,
+		text: text1,
 		position: position,
 		rotation: rotation,
 		name: "testText",
@@ -21,10 +23,10 @@ var text = "Hello, world!";
 		script: "atp:/textBoxScript.js"
 	};
 	
+	var properties2 = // adjust positioning and ref text2
+	    
+	var properties3 = // adjust positioning and ref text3
+	
 	var entityID = Entities.addEntity(properties);
 	print("text spawn attempted");
-	
-Messages.messageReceived.connect(function (channel, message, senderID, localOnly) {
-	//All entity creation logic goes here
 });
-//});
