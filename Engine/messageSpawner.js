@@ -8,11 +8,12 @@ var text1 = "Hello, world!";
 var text2 = "Evening, world!";
 var text3 = "Goodbye, world!";
 	
-Messages.dataReceived.connect(function (channel, data, senderID, localOnly) {
+Messages.messageReceived.connect(function (channel, unprocessedData, senderID, localOnly) {
 	var rotation = MyAvatar.orientation;
-	var left = Vec3.sum(MyAvatar.position, Quat.getLeft(rotation));
+	var left = Vec3.sum(MyAvatar.position, Quat.getUp(rotation));
 	var front = Vec3.sum(MyAvatar.position, Quat.getFront(rotation));
 	var right = Vec3.sum(MyAvatar.position, Quat.getRight(rotation));
+	var data = unprocessedData.split("|");
 	text1 = data[0];
 	text2 = data[1];
 	text3 = data[2];

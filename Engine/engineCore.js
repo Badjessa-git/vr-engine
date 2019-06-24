@@ -40,13 +40,10 @@ function play()
 }
 
 //spawn menu (TODO: spawn proper UI stuffs. Read aloud?)
-function menuSpawner(option1, option2, option3)
+function menuSpawner(unprocessedData)
 {
-	//compile array
-	var array = {option1, option2, option3};
-	
 	//Send message to entity creator script
-	Messages.sendData("entitySpawner", array.buffer);
+	Messages.sendMessage("entitySpawner", unprocessedData);
 	print("menu spawner contacted");
 }
 
@@ -55,11 +52,11 @@ Messages.messageReceived.connect(function(channel, message, senderID, localOnly)
 {
 	//for now, just print
 	print(message);
-}
+});
 //----------------------------------------------------------------------------------------------------------------
 //state function declarations
 
-var state1 = function()
+function state1()
 {
 	//animation logic
 	/*
@@ -67,8 +64,10 @@ var state1 = function()
 	Script.update.connect(play);
 	print("connected animation player");
 	*/
-	menuSpawner("From the weakness","of the mind","Omnissiah save us");
-};
+	Script.setTimeout(function() {
+		menuSpawner("From the weakness|of the mind|Omnissiah save us");
+	}, 5000);
+}
 
 //var state2 = //similar function to above
 //var state3 = //similar funciton to above
