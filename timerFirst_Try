@@ -1,0 +1,13 @@
+//WARNING!!! This code was written by a JavaScript noob. 
+
+//Create Zone For Enabling.
+var firstZone = Zone-1
+
+var firstZone_Enabled = firstZone: "enabled" 
+
+//Set Timer Code. 
+if (firstZone_Enabled === true) 
+{
+	setTimeout(function, milliseconds)
+}
+
