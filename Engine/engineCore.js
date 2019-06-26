@@ -65,7 +65,7 @@ function state1()
 	print("connected animation player");
 	*/
 	Script.setTimeout(function() {
-		menuSpawner("From the weakness|of the mind|Omnissiah save us");
+		menuSpawner("bob");
 	}, 5000);
 }
 
