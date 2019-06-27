@@ -39,7 +39,7 @@ function play()
 	print(Recording.playerLength());
 }
 
-//spawn menu (TODO: spawn proper UI stuffs. Read aloud?)
+//spawn menu
 function menuSpawner(unprocessedData)
 {
 	//Send message to entity creator script

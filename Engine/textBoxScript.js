@@ -2,34 +2,21 @@
 (function(){
 	  //set up entity id storage
 	  var _selfEntityID;
-		
-	  //subscribe to channel to be notified when to send ID to spawner for deletion
-	  Messages.subscribe("getMenuIDs");
 
-	  // The preload function fires whenever a client first loads the entity and this
-	  // script. The reference to the entityID that this script is on is passed in as
-	  // a parameter, which can be stored and used elsewhere in the script.
+	  //Stores entity id on creation
 	  this.preload = function(entityID) {
 		_selfEntityID = entityID;
 	  };
 	  
-	  // We connect the mousePressOnEntity signal to call our function 
+	  //On click, entity will send its text contents to the engine, and then it will delete itself
 	  this.mousePressOnEntity = function() {
-		// Sending message
-		//Messages.sendMessage("engine", "hi"); // sends "message" to channel "channel"
-		
-		//Test log
-		print("Selection confirmed. Removing textboxes.");
 		
 		//Send message to engine to confirm selection
 		var textProp = Entities.getEntityProperties(_selfEntityID, ["text"]);
 		textProp = JSON.stringify(textProp.text);
 		Messages.sendMessage("engine",textProp);
-		print("Selected: " + textProp);
+		
+		//Self delete
+		Entities.deleteEntity(_selfEntityID);
 	  };
-	  
-	  //Connect function to send ID to messageSpawner on command
-	  Messages.messageReceived.connect(function(){
-		  Messages.sendMessage("deleterChannel",_selfEntityID);
-	  });
 });
