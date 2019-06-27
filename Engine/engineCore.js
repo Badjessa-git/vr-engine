@@ -40,24 +40,34 @@ function play()
 }
 
 //spawn menu (TODO: spawn proper UI stuffs. Read aloud?)
-function menuSpawner()
+function menuSpawner(unprocessedData)
 {
 	//Send message to entity creator script
-	Messages.sendMessage("entitySpawner", "Animation over!");
+	Messages.sendMessage("menuSystem", unprocessedData);
 	print("menu spawner contacted");
 }
+
+//Can store user selection as received from textBoxScript
+Messages.messageReceived.connect(function(channel, message, senderID, localOnly)
+{
+	//for now, just print
+	print(message);
+});
 //----------------------------------------------------------------------------------------------------------------
 //state function declarations
 
-var state1 = function()
+function state1()
 {
 	//animation logic
+	/*
 	activeAnimationURL = firstAnimationURL;
 	Script.update.connect(play);
 	print("connected animation player");
-
-	menuSpawner();
-};
+	*/
+	Script.setTimeout(function() {
+		menuSpawner("check|From the weakness|of the mind|Omnissiah save us");
+	}, 5000);
+}
 
 //var state2 = //similar function to above
 //var state3 = //similar funciton to above
