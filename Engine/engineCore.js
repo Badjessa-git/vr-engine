@@ -7,7 +7,7 @@ var secondAnimationURL = "atp:/20190618-182303.hfr";
 var activeAnimationURL;
 var idleAnimationURL;
 
-//Specify boolean flag to keep track of whether animation has ended
+//Specify boolean flag to keep track of whether state is on first run
 var flag = false;
 
 //Subscribe to message channel
@@ -48,15 +48,11 @@ function menuSpawner(unprocessedData)
 }
 
 //Can store user selection as received from textBoxScript
-Messages.messageReceived.connect(function(channel, message, senderID, localOnly)
-{
-	//for now, just print
-	print(message);
-});
+
 //----------------------------------------------------------------------------------------------------------------
 //state function declarations
 
-function state1()
+function initialState()
 {
 	//animation logic
 	/*
@@ -65,21 +61,61 @@ function state1()
 	print("connected animation player");
 	*/
 	Script.setTimeout(function() {
-		menuSpawner("check|From the weakness|of the mind|Omnissiah save us");
+		menuSpawner("check|Go to state1|Go to state1|Go to state1");
 	}, 5000);
+	
+	//listen for message to trigger transition
+	Messages.messageReceived.connect(function initialStateListener(channel, message, senderID, localOnly)
+	{
+		//test print
+		print(message);
+		if(message == "\"option1\"" || message == "\"option2\"" || message == "\"option3\"")
+		{
+			Messages.messageReceived.disconnect(initialStateListener);
+			state1();
+		}
+	});
 }
 
-//var state2 = //similar function to above
-//var state3 = //similar funciton to above
-//etc
-
-//The active state will be changed to 
-//whatever the current state is
-var activeState = state1;
-
-//Call activeState in a loop
-while(true)
+function state1()
 {
-	activeState();
-	break;
+	//test log
+	print("Now entering state1");
+	//Spawn menu to go to state2
+	menuSpawner("check|Go to state2|Go to state2|Go to state2");
+	
+	//listen for message to trigger transition
+	Messages.messageReceived.connect(function state1Listener(channel, message, senderID, localOnly)
+	{
+		//test print
+		print(message);
+		if(message == "\"option1\"" || message == "\"option2\"" || message == "\"option3\"")
+		{
+			Messages.messageReceived.disconnect(state1Listener);
+			state2();
+		}
+	});
 }
+
+function state2()
+{
+	//test log
+	print("Now entering state2");
+	//Spawn menu to go to state2
+	menuSpawner("check|Go to state1|Go to state1|Go to state1");
+	
+	//listen for message to trigger transition
+	Messages.messageReceived.connect(function state2Listener(channel, message, senderID, localOnly)
+	{
+		//test print
+		print(message);
+		if(message == "\"option1\"" || message == "\"option2\"" || message == "\"option3\"")
+		{
+			Messages.messageReceived.disconnect(state2Listener);
+			state1();
+		}
+	});
+}
+
+//Call initialState
+initialState();
