@@ -1,4 +1,7 @@
 //script to attach to text boxes so that they send a message to the assignment client when clicked
+
+//NOTE: flag related stuff can be used to ensure that no 
+//textbox signals can be sent out under certain situations
 (function()
 {
 	//set up entity id storage
@@ -14,16 +17,18 @@
 	};
 	
 	//delay deleteability of text box by one second
+	/*
 	Script.setTimeout(function() 
 	{
 		flag = true;
 	}, 1000);
-	  
+	*/
+	
 	//subscribe to channel to receive deletion notice
 	Messages.subscribe("deletionNotice");
 	Messages.messageReceived.connect(function (channel, message, senderID, localOnly) 
 	{
-		if(message === "delete" && flag)
+		if(message === "delete")
 		{
 			//Self delete
 			Entities.deleteEntity(_selfEntityID);
@@ -33,8 +38,8 @@
 	this.mousePressOnEntity = function()
 	{
 		//only allow interactability if has existed for a while
-		if(flag)
-		{
+		//if(flag)
+		//{
 			//Send message to engine to confirm selection
 			var textProp = Entities.getEntityProperties(_selfEntityID, ["name"]);
 			textProp = JSON.stringify(textProp.name);
@@ -42,6 +47,6 @@
 			
 			//Send deletion notice on local channel
 			Messages.sendMessage("deletionNotice", "delete", true);
-		}
+		//}
 	};
 });
