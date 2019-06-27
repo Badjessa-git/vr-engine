@@ -1,50 +1,59 @@
 //Interface script to spawn interactable menus
 
 //This channel will receive text values to display in text boxes
-Messages.subscribe("entitySpawner");
-
-//This channel will receive ids of text boxes that need to be deleted
-Messages.subscribe("deleterChannel");
-
-//This channel will receive a notice that a text box has been selected
-Messages.subscribe("engine");
-
-//Set default text
-var text = "Hello, world!";
-//Messages.messageReceived.connect(function(channel, data, sender, localOnly)
-//{
-	var rotation = MyAvatar.orientation;
-	var position = Vec3.sum(MyAvatar.position, Quat.getFront(rotation));
-	//var text = data;
+Messages.subscribe("menuSystem");
 	
-	var properties = {
-		type: "Text",
-		text: text,
-		position: position,
-		rotation: rotation,
-		name: "testText",
-		dimensions: {x:1,y:0.1,z:0.1},
-		script: "atp:/textBoxScript.js"
-	};
-	
-	var entityID = Entities.addEntity(properties);
-	print("text spawn attempted");
-	
-Messages.messageReceived.connect(function (channel, message, senderID, localOnly) {
-    if(channel === "entitySpawner")
+Messages.messageReceived.connect(function (channel, unprocessedData, senderID, localOnly) {
+	//Check to make sure the message is from the engine
+	var data = unprocessedData.split("|");
+	var flag = data[0];
+	var text1 = data[1];
+	var text2 = data[2];
+	var text3 = data[3];
+
+	if(flag === "check")
 	{
-		//All entity creation logic will go here
-	}
-	else if(channel === "deleterChannel")
-	{
-		//Deletes each entity according to the id found in the message
-		Entities.deleteEntity(message);
-	}
-	else if(channel === "engine")
-	{
-		//This picks up that a message has been selected,
-		//and prompts all textboxes to send their ids for deletion
-		Messages.sendMessage("getMenuIDs","");
+		var rotation = MyAvatar.orientation;
+		var left = Vec3.sum(MyAvatar.position, Quat.getUp(rotation));
+		var front = Vec3.sum(MyAvatar.position, Quat.getFront(rotation));
+		var right = Vec3.sum(MyAvatar.position, Quat.getRight(rotation));
+		
+		//Properties of message1
+		var properties1 = {
+			type: "Text",
+			text: text1,
+			position: left,
+			rotation: rotation,
+			name: "testText",
+			dimensions: {x:1,y:0.1,z:0.1},
+			script: "atp:/textBoxScript.js"
+		};
+		
+		//Properties of message2
+		var properties2 = {
+			type: "Text",
+			text: text2,
+			position: front,
+			rotation: rotation,
+			name: "testText",
+			dimensions: {x:1,y:0.1,z:0.1},
+			script: "atp:/textBoxScript.js"
+		};
+		
+		//Properties of message3
+		var properties3 = {
+			type: "Text",
+			text: text3,
+			position: right,
+			rotation: rotation,
+			name: "testText",
+			dimensions: {x:1,y:0.1,z:0.1},
+			script: "atp:/textBoxScript.js"
+		};
+		
+		var leftEntityID = Entities.addEntity(properties1);
+		var frontEntityID = Entities.addEntity(properties2);
+		var rightEntityID = Entities.addEntity(properties3);
+		print("text spawn attempted");
 	}
 });
-//});
