@@ -44,10 +44,7 @@ function menuSpawner(unprocessedData)
 {
 	//Send message to entity creator script
 	Messages.sendMessage("menuSystem", unprocessedData);
-	print("menu spawner contacted");
 }
-
-//Can store user selection as received from textBoxScript
 
 //----------------------------------------------------------------------------------------------------------------
 //state function declarations
@@ -69,6 +66,7 @@ function initialState()
 	{
 		//test print
 		print(message);
+		//Worth noting: Names are sent in HF with quotes, hence the need to include them here
 		if(message == "\"option1\"" || message == "\"option2\"" || message == "\"option3\"")
 		{
 			Messages.messageReceived.disconnect(initialStateListener);

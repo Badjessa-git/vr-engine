@@ -21,15 +21,16 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 	{
 		//set up orientation and positions for the text boxes
 		var rotation = MyAvatar.orientation;
-		var left = Vec3.sum(MyAvatar.position, Quat.getUp(rotation));
-		var front = Vec3.sum(MyAvatar.position, Quat.getFront(rotation));
-		var right = Vec3.sum(MyAvatar.position, Quat.getRight(rotation));
+		var basePosition = Vec3.sum(MyAvatar.position, Quat.getFront(rotation));
+		var position1 = Vec3.sum(basePosition, {x:0, y:0.25, z:0});
+		var position2 = Vec3.sum(basePosition, {x:0, y:0.5, z:0});
+		var position3 = basePosition;
 		
 		//Properties of message1
 		var properties1 = {
 			type: "Text",
 			text: text1,
-			position: left,
+			position: position1,
 			rotation: rotation,
 			name: "option1",
 			dimensions: {x:1,y:0.1,z:0.1},
@@ -40,7 +41,7 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 		var properties2 = {
 			type: "Text",
 			text: text2,
-			position: front,
+			position: position2,
 			rotation: rotation,
 			name: "option2",
 			dimensions: {x:1,y:0.1,z:0.1},
@@ -51,7 +52,7 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 		var properties3 = {
 			type: "Text",
 			text: text3,
-			position: right,
+			position: position3,
 			rotation: rotation,
 			name: "option3",
 			dimensions: {x:1,y:0.1,z:0.1},
