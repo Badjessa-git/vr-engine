@@ -2,7 +2,7 @@
 
 //Urls for animations
 var firstAnimationURL = "atp:/20190606-185600.hfr";
-var secondAnimationURL = "atp:/20190618-182303.hfr";
+var secondAnimationURL = "atp:/20190702-203823.hfr";
 
 var activeAnimationURL;
 var idleAnimationURL;
