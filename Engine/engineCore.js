@@ -1,7 +1,7 @@
 //Finite State Machine
 
 //Urls for animations
-var firstAnimationURL = "atp:/20190606-185600.hfr";
+var firstAnimationURL = "var firstAnimationURL = "atp:/1592e15e-c822-41aa-b314-4ef261e5d843-v1/20190702-205132.hfr";";
 var secondAnimationURL = "atp:/20190702-203823.hfr";
 
 var activeAnimationURL;
