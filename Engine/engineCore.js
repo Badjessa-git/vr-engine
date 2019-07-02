@@ -7,36 +7,46 @@ var secondAnimationURL = "atp:/20190618-182303.hfr";
 var activeAnimationURL;
 var idleAnimationURL;
 
-//Specify boolean flag to keep track of whether state is on first run
-var flag = false;
+//specify counter to keep track of animation cycles
+var count = 0;
 
 //Subscribe to message channel
 Messages.subscribe("engine");
+
+//Helper function for animation player
+function animationHelper()
+{
+	count = 0;
+	Script.update.connect(play);
+}
 
 //play animation
 function play()
 {
 	var PLAYBACK_CHANNEL = "playbackChannel";
-
 	Recording.loadRecording(activeAnimationURL);
-	
+
 	Recording.setPlayFromCurrentLocation(false);
 	Recording.setPlayerUseDisplayName(true);
 	Recording.setPlayerUseAttachments(true);
-	Recording.setPlayerUseHeadModel(false);
-	Recording.setPlayerLoop(false);
 	Recording.setPlayerUseSkeletonModel(true);
-	Agent.isAvatar = true;
-	
-	if (Recording.isPlaying()) 
-	{
-		Script.update.disconnect(play);
-		print("disconnected animation player");
 
+	Agent.isAvatar = true;
+	if (!Recording.isPlaying()) 
+	{
+		Recording.setPlayerTime(0.0);
+		Recording.startPlaying();
+		count++;
+		
+		if(count>2)
+		{
+			//TODO fix menuspawner
+			menuSpawner(unprocessedData);
+			Recording.stopPlaying();
+			Script.update.disconnect(play);
+		}
+		
 	}
-	Recording.setPlayerTime(0.0);
-	Recording.startPlaying();
-	print(Recording.playerLength());
 }
 
 //spawn menu
@@ -51,12 +61,14 @@ function menuSpawner(unprocessedData)
 
 function initialState()
 {
-	//animation logic
-	/*
+	//log
+	print("initialState entered");
+	
+	//set animation parameters and play animation
 	activeAnimationURL = firstAnimationURL;
 	Script.update.connect(play);
 	print("connected animation player");
-	*/
+
 	Script.setTimeout(function() {
 		menuSpawner("check|Go to state1|Go to state1|Go to state1");
 	}, 5000);
