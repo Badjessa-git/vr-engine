@@ -59,10 +59,8 @@ function menuSpawner(unprocessedData)
 //----------------------------------------------------------------------------------------------------------------
 //state function declarations
 
-function statechange(animationURL, menuOptions)
+function statechange(animationURL, menuOptions) //NOTE:need to add audio file potentially
 {
-	//test log
-	print("Now entering state1");
 
 	//set animation parameters and play animation
 	activeAnimationURL = animationURL;
@@ -72,8 +70,6 @@ function statechange(animationURL, menuOptions)
 	//listen for message to trigger transition
 	Messages.messageReceived.connect(function state1Listener(channel, message, senderID, localOnly)
 	{
-		//test print
-		print(message);
 		if(message == "\"option1\"" || message == "\"option2\"" || message == "\"option3\"" || message == "\"option4\"")
 		{
 			Messages.messageReceived.disconnect(state1Listener);
@@ -115,13 +111,11 @@ function statechange(animationURL, menuOptions)
 				newMenuOptions =  "check|Please don’t touch me or my bag. I know my rights and you’re obviously breaking the law.|As I said, I just purchased these. There is no need to check me or my bag.|I just purchased this pair of sunglasses, and you can check the security camera if you need proof.|You can look in my bag if you’d like, but I don’t think it’s necessary to search me.";
 				newUrl = "Bill3D";
 
-			}
-			if (textContents == "I just bought these sunglasses a few minutes ago, and have my own bag. That’s why you saw me put them in there."){
+			}if (textContents == "I just bought these sunglasses a few minutes ago, and have my own bag. That’s why you saw me put them in there."){
 				newMenuOptions =  "check|Please don’t touch me or my bag. I know my rights and you’re obviously breaking the law.|As I said, I just purchased these. There is no need to check me or my bag.|I just purchased this pair of sunglasses, and you can check the security camera if you need proof.|You can look in my bag if you’d like, but I don’t think it’s necessary to search me.";
 				newUrl = "Bill3N1";
 
-			}
-			if (textContents == "I didn’t need a store bag because I brought my backpack to the store today. I didn’t think it would be an issue."){
+			}if (textContents == "I didn’t need a store bag because I brought my backpack to the store today. I didn’t think it would be an issue."){
 				newMenuOptions =  "check|Please don’t touch me or my bag. I know my rights and you’re obviously breaking the law.|As I said, I just purchased these. There is no need to check me or my bag.|I just purchased this pair of sunglasses, and you can check the security camera if you need proof.|You can look in my bag if you’d like, but I don’t think it’s necessary to search me.";
 				newUrl = "Bill3N2";
 
@@ -133,18 +127,15 @@ function statechange(animationURL, menuOptions)
 				newMenuOptions =  "check|Are you kidding me? Go ahead and call the police so I can tell them how you won’t stop harassing me.|I am sure we can figure this out without the police getting involved. There has to be another way to solve this.|No need to call the police and make a scene in the store. I’m sure you and I can work this out.|Ok, I’ll go to the back, but I really do have a receipt. I didn’t mean for this to cause a scene.";
 				newUrl = "Bill4D";
 
-			}
-			if (textContents == "As I said, I just purchased these. There is no need to check me or my bag."){
+			}if (textContents == "As I said, I just purchased these. There is no need to check me or my bag."){
 				newMenuOptions =  "check|Are you kidding me? Go ahead and call the police so I can tell them how you won’t stop harassing me.|I am sure we can figure this out without the police getting involved. There has to be another way to solve this.|No need to call the police and make a scene in the store. I’m sure you and I can work this out.|Ok, I’ll go to the back, but I really do have a receipt. I didn’t mean for this to cause a scene.";
 				newUrl = "Bill4N1";
 
-			}
-			if (textContents == "As I said, I just purchased these. There is no need to check me or my bag.|I just purchased this pair of sunglasses, and you can check the security camera if you need proof."){
+			}if (textContents == "As I said, I just purchased these. There is no need to check me or my bag.|I just purchased this pair of sunglasses, and you can check the security camera if you need proof."){
 				newMenuOptions =  "check|Are you kidding me? Go ahead and call the police so I can tell them how you won’t stop harassing me.|I am sure we can figure this out without the police getting involved. There has to be another way to solve this.|No need to call the police and make a scene in the store. I’m sure you and I can work this out.|Ok, I’ll go to the back, but I really do have a receipt. I didn’t mean for this to cause a scene.";
 				newUrl = "Bill4N2";
 
-			}
-			if (textContents == "You can look in my bag if you’d like, but I don’t think it’s necessary to search me."){
+			}if (textContents == "You can look in my bag if you’d like, but I don’t think it’s necessary to search me."){
 				newMenuOptions =  "check|Are you kidding me? Go ahead and call the police so I can tell them how you won’t stop harassing me.|I am sure we can figure this out without the police getting involved. There has to be another way to solve this.|No need to call the police and make a scene in the store. I’m sure you and I can work this out.|Ok, I’ll go to the back, but I really do have a receipt. I didn’t mean for this to cause a scene.";
 				newUrl = "Bill4C";
 
