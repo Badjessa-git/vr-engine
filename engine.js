@@ -1,8 +1,6 @@
 //Finite State Machine
 
-
 var activeAnimationURL;
-var idleAnimationURL;
 
 //Text for menu options
 var activeMenuOptions;
@@ -12,14 +10,6 @@ var count;
 
 //Subscribe to message channel
 Messages.subscribe("engine");
-
-//Initial state requires that there be a higher count limit.
-//Reasons unknown. Possibly due to running during load?
-//This funciton is in place to circumvent this issue.
-function initialAnimationHelper()
-{
-	Script.update.connect(play);
-}
 
 //Helper function for animation player
 function animationHelper()
@@ -88,7 +78,7 @@ function statechange(animationURL, menuOptions)
 		{
 			Messages.messageReceived.disconnect(state1Listener);
 
-			//first varrying response of manager
+			//NOTE: could have text contents as something else but this allows for easy order changing of dialogue options
 			if (textContents == "Do you really think that I would be stealing from you?"){
 				newMenuOptions = "check|Well, I’m not stealing anything from you. You know what you are doing is called racial profiling.|I did not steal anything from you. I purchased this item, and I have a receipt.|I’m sorry if it looked like I stole something, but I wouldn’t steal anything from this store.";
 				newUrl = "Bill1D";
@@ -135,19 +125,35 @@ function statechange(animationURL, menuOptions)
 				newMenuOptions =  "check|Please don’t touch me or my bag. I know my rights and you’re obviously breaking the law.|As I said, I just purchased these. There is no need to check me or my bag.|I just purchased this pair of sunglasses, and you can check the security camera if you need proof.|You can look in my bag if you’d like, but I don’t think it’s necessary to search me.";
 				newUrl = "Bill3N2";
 
-			}
-			if (textContents == ""){
+			}if (textContents == "I didn’t mean for it to look suspicious or anything. I can show you my receipt right now if that would help."){
 				newMenuOptions =  "check|Please don’t touch me or my bag. I know my rights and you’re obviously breaking the law.|As I said, I just purchased these. There is no need to check me or my bag.|I just purchased this pair of sunglasses, and you can check the security camera if you need proof.|You can look in my bag if you’d like, but I don’t think it’s necessary to search me.";
 				newUrl = "Bill3C";
 
-			}if (textContents == ""){
+			}if (textContents == "Please don’t touch me or my bag. I know my rights and you’re obviously breaking the law."){
 				newMenuOptions =  "check|Are you kidding me? Go ahead and call the police so I can tell them how you won’t stop harassing me.|I am sure we can figure this out without the police getting involved. There has to be another way to solve this.|No need to call the police and make a scene in the store. I’m sure you and I can work this out.|Ok, I’ll go to the back, but I really do have a receipt. I didn’t mean for this to cause a scene.";
+				newUrl = "Bill4D";
+
+			}
+			if (textContents == "As I said, I just purchased these. There is no need to check me or my bag."){
+				newMenuOptions =  "check|Are you kidding me? Go ahead and call the police so I can tell them how you won’t stop harassing me.|I am sure we can figure this out without the police getting involved. There has to be another way to solve this.|No need to call the police and make a scene in the store. I’m sure you and I can work this out.|Ok, I’ll go to the back, but I really do have a receipt. I didn’t mean for this to cause a scene.";
+				newUrl = "Bill4N1";
+
+			}
+			if (textContents == "As I said, I just purchased these. There is no need to check me or my bag.|I just purchased this pair of sunglasses, and you can check the security camera if you need proof."){
+				newMenuOptions =  "check|Are you kidding me? Go ahead and call the police so I can tell them how you won’t stop harassing me.|I am sure we can figure this out without the police getting involved. There has to be another way to solve this.|No need to call the police and make a scene in the store. I’m sure you and I can work this out.|Ok, I’ll go to the back, but I really do have a receipt. I didn’t mean for this to cause a scene.";
+				newUrl = "Bill4N2";
+
+			}
+			if (textContents == "You can look in my bag if you’d like, but I don’t think it’s necessary to search me."){
+				newMenuOptions =  "check|Are you kidding me? Go ahead and call the police so I can tell them how you won’t stop harassing me.|I am sure we can figure this out without the police getting involved. There has to be another way to solve this.|No need to call the police and make a scene in the store. I’m sure you and I can work this out.|Ok, I’ll go to the back, but I really do have a receipt. I didn’t mean for this to cause a scene.";
+				newUrl = "Bill4C";
+
 			}
 
 			statechange(newUrl, newMenuOptions);
 		}
 	});
 }
-
+//should be triggered from passing zone ect.
 //Call initialState
 statechange(StartingUrl, "check|Do you really think that I would be stealing from you?|Yes, I just purchased this and put it in my bag.|I put the watch in my bag because I just bought it.|I did, I can show you the receipt showing I purchased it?");
