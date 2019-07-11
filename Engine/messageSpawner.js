@@ -28,6 +28,7 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 		var position2 = Vec3.sum(basePosition, {x:0, y:0.5, z:0});
 		var position3 = Vec3.sum(basePosition, {x:0, y:0.25, z:0});
 		var position4 = basePosition;
+		var repeatButtonPosition = Vec3.sum(basePosition, {x:0, y:-0.25, z:0});
 		
 		//Properties of message1
 		var properties1 = {
@@ -36,7 +37,7 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			position: position1,
 			rotation: rotation,
 			name: "option1",
-			dimensions: {x:1,y:0.1,z:0.1},
+			dimensions: {x:1, y:0.1, z:0.1},
 			script: "atp:/textBoxScript.js"
 		};
 		
@@ -47,7 +48,7 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			position: position2,
 			rotation: rotation,
 			name: "option2",
-			dimensions: {x:1,y:0.1,z:0.1},
+			dimensions: {x:1, y:0.1, z:0.1},
 			script: "atp:/textBoxScript.js"
 		};
 		
@@ -58,7 +59,7 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			position: position3,
 			rotation: rotation,
 			name: "option3",
-			dimensions: {x:1,y:0.1,z:0.1},
+			dimensions: {x:1, y:0.1, z:0.1},
 			script: "atp:/textBoxScript.js"
 		};
 		
@@ -69,8 +70,19 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			position: position4,
 			rotation: rotation,
 			name: "option4",
-			dimensions: {x:1,y:0.1,z:0.1},
+			dimensions: {x:1, y:0.1, z:0.1},
 			script: "atp:/textBoxScript.js"
+		};
+		
+		//Properties of repeatButton
+		var repeatButtonProps = {
+			type: "Text",
+			text: "Repeat Audio",
+			position: repeatButtonPosition,
+			rotation: rotation,
+			name: "repeatButton",
+			dimensions: {x:0.5, y:0.1, z:0.1},
+			script: "atp:/repeatButton.js"
 		};
 		
 		//spawn textboxes
@@ -78,5 +90,6 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 		var textBoxID2 = Entities.addEntity(properties2);
 		var textBoxID3 = Entities.addEntity(properties3);
 		var textBoxID4 = Entities.addEntity(properties4);
+		var repeatButtonID = Entities.addEntity(repeatButtonProps);
 	}
 });
