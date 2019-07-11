@@ -6,7 +6,7 @@ Messages.subscribe("menuSystem");
 Messages.messageReceived.connect(function (channel, unprocessedData, senderID, localOnly) {
 	//Parse message from engine into 4 components
 	var data = unprocessedData.split("|");
-	
+
 	//flag to ensure that message is from the engine
 	var flag = data[0];
 	//text for first option
@@ -15,6 +15,8 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 	var text2 = data[2];
 	//text for third option
 	var text3 = data[3];
+	//text for fourth option
+	var text4 = data[4];
 
 	//Check if message is from engine
 	if(flag === "check")
@@ -22,9 +24,10 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 		//set up orientation and positions for the text boxes
 		var rotation = MyAvatar.orientation;
 		var basePosition = Vec3.sum(MyAvatar.position, Quat.getFront(rotation));
-		var position1 = Vec3.sum(basePosition, {x:0, y:0.25, z:0});
+		var position1 = Vec3.sum(basePosition, {x:0, y:0.75, z:0});
 		var position2 = Vec3.sum(basePosition, {x:0, y:0.5, z:0});
-		var position3 = basePosition;
+		var position3 = Vec3.sum(basePosition, {x:0, y:0.25, z:0});
+		var position4 = basePosition;
 		
 		//Properties of message1
 		var properties1 = {
@@ -58,10 +61,22 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			dimensions: {x:1,y:0.1,z:0.1},
 			script: "atp:/textBoxScript.js"
 		};
-
+		
+		//Properties of message4
+		var properties4 = {
+			type: "Text",
+			text: text4,
+			position: position3,
+			rotation: rotation,
+			name: "option4",
+			dimensions: {x:1,y:0.1,z:0.1},
+			script: "atp:/textBoxScript.js"
+		};
+		
 		//spawn textboxes
-		var leftEntityID = Entities.addEntity(properties1);
-		var frontEntityID = Entities.addEntity(properties2);
-		var rightEntityID = Entities.addEntity(properties3);
+		var textBoxID1 = Entities.addEntity(properties1);
+		var textBoxID2 = Entities.addEntity(properties2);
+		var textBoxID3 = Entities.addEntity(properties3);
+		var textBoxID4 = Entities.addEntity(properties4);
 	}
 });
