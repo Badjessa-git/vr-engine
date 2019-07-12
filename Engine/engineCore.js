@@ -1,8 +1,8 @@
 //Finite State Machine
 
 //Urls for animations
-var firstAnimationURL = "atp:/1592e15e-c822-41aa-b314-4ef261e5d843-v1/20190702-205132.hfr";
-var secondAnimationURL = "atp:/20190702-203823.hfr";
+var firstAnimationURL = "atp:/Animations/20190712-181953.hfr";
+var secondAnimationURL = "atp:/Animations/20190712-182011.hfr";
 
 var activeAnimationURL;
 var idleAnimationURL;
@@ -10,8 +10,14 @@ var idleAnimationURL;
 //Text for menu options
 var activeMenuOptions;
 
+//Audio for menu options
+var dialogueAudio = ["atp:/Audio/Option1.mp3", 
+		     "atp:/Audio/Option2.mp3", 
+		     "atp:/Audio/Option3.mp3", 
+		     "atp:/Audio/Option4.mp3"];
+
 //specify counter to keep track of animation cycles
-var count;
+var count = 0;
 
 //Subscribe to message channel
 Messages.subscribe("engine");
@@ -62,6 +68,46 @@ function play()
 	}
 }
 
+//Read all options in sequence recursively
+function readOptions(index)
+{
+	//Base case, array of urls has been iterated through
+	if(index === dialogueAudio.length)
+	{
+		//send message to unlock text boxes
+		Messages.sendMessage("readingNotice", "toggle lock");
+		return;
+	}
+	
+	sound = SoundCache.getSound(dialogueAudio[index]);
+	function playSound() 
+	{
+	    var injector = Audio.playSound(sound);
+		
+	    //connect signal to trigger next audio
+	    injector.finished.connect(function recurse()
+	    {
+	    	injector.finished.disconnect(recurse);
+			readOptions(++index);
+	    });
+	}
+
+	function onSoundReady() 
+	{
+	    sound.ready.disconnect(onSoundReady);
+	    playSound();
+	}
+
+	if (sound.downloaded) 
+	{
+	    playSound();
+	} 
+	else 
+	{
+	    sound.ready.connect(onSoundReady);
+	}
+}
+
 //spawn menu
 function menuSpawner(unprocessedData)
 {
@@ -95,6 +141,13 @@ function initialState()
 			Messages.messageReceived.disconnect(initialStateListener);
 			state1();
 		}
+		//respond to repeat button
+		if(message == "repeatAudio")
+		{
+			//Send message to lock text boxes
+			Messages.sendMessage("readingNotice", "toggle lock");
+			readOptions(0);
+		}
 	});
 }
 
@@ -118,6 +171,13 @@ function state1()
 			Messages.messageReceived.disconnect(state1Listener);
 			state2();
 		}
+		//respond to repeat button
+		if(message == "repeatAudio")
+		{
+			//Send message to lock text boxes
+			Messages.sendMessage("readingNotice", "toggle lock");
+			readOptions(0);
+		}
 	});
 }
 
@@ -140,6 +200,13 @@ function state2()
 		{
 			Messages.messageReceived.disconnect(state2Listener);
 			state1();
+		}
+		//respond to repeat button
+		if(message == "repeatAudio")
+		{
+			//Send message to lock text boxes
+			Messages.sendMessage("readingNotice", "toggle lock");
+			readOptions(0);
 		}
 	});
 }
