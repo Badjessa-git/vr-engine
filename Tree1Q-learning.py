@@ -55,76 +55,8 @@ rewards = np.array([[1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0],
 state_to_location = dict((state,location) for location,state in location_to_state.items())
 
 # Initialize parameters
-gamma = 0.75 # Discount factor 
-alpha = 0.5 # Learning rate
-
-"""def get_optimal_route(start_location,end_location):
-    # Copy the rewards matrix to new Matrix
-    rewards_new = np.copy(rewards)
-    
-    # Get the ending state corresponding to the ending location as given
-    ending_state = location_to_state[end_location]
-    
-    # With the above information automatically set the priority of  
-    # the given ending state to the highest one
-    rewards_new[ending_state,ending_state] = 999
-
-    # -----------Q-Learning algorithm-----------
-   
-    # Initializing Q-Values
-    Q = np.array(np.zeros([20,20]))
-
-    # Q-Learning process
-    for i in range(10000):
-        # Pick up a start state randomly
-        current_state = np.random.randint(0,20) # Python excludes the upper bound
-        
-        # For traversing through the neighbor locations in the maze
-        playable_actions = []
-        
-        # Iterate through the new rewards matrix and get the actions > 0
-        for j in range(20):
-            if rewards_new[current_state,j] > 0:
-                playable_actions.append(j)
-        
-        # Pick an action randomly from the list of playable actions  
-        # leading us to the next state
-        next_state = np.random.choice(playable_actions)
-        
-        # Compute the temporal difference
-        # The action here exactly refers to going to the next state
-        TD = rewards_new[current_state,next_state] + gamma * Q[next_state,np.argmax(Q[next_state,])] - Q[current_state,next_state]
-        
-        # Update the Q-Value using the Bellman equation
-        Q[current_state,next_state] += alpha * TD
-
-    # Initialize the optimal route with the starting location
-    route = [start_location]
-    # We do not know about the next location yet, so initialize with the value of 
-    # starting location
-    next_location = start_location
-    
-    # We don't know about the exact number of iterations
-    # needed to reach to the final location hence while loop will be a good choice 
-    # for iteratiing
-    
-    while(next_location != end_location):
-        # Fetch the starting state
-        starting_state = location_to_state[start_location]
-        
-        # Fetch the highest Q-value pertaining to starting state
-        next_state = np.argmax(Q[starting_state,])
-        
-        # We got the index of the next state. But we need the corresponding letter. 
-        next_location = state_to_location[next_state]
-        route.append(next_location)
-        
-        # Update the starting location for the next iteration
-        start_location = next_location
-    
-    return route
-"""
-##########
+gamma = 0.75 # Discount factor (discounts previos rewards)
+alpha = 0.9 # Learning rate
 
 class QAgent():
     
@@ -160,7 +92,9 @@ class QAgent():
             next_state = np.random.choice(playable_actions)
             TD = rewards_new[current_state,next_state] + \
                     self.gamma * self.Q[next_state, np.argmax(self.Q[next_state,])] - self.Q[current_state,next_state]
-            
+            #print selfQ tables
+            #compare ovetlapping Q values
+            #even w/o same value could encode same policy (where max/mins are)
             self.Q[current_state,next_state] += self.alpha * TD
 
         route = [start_location]
@@ -175,6 +109,7 @@ class QAgent():
         while(next_location != end_location):
             starting_state = self.location_to_state[start_location]
             next_state = np.argmax(Q[starting_state,])
+            #episilon?
             next_location = self.state_to_location[next_state]
             route.append(next_location)
             start_location = next_location
@@ -185,7 +120,7 @@ class QAgent():
 def to_excel(array):
     """store data in excel
     """
-    workbook = xlsxwriter.Workbook('1C_5C.xlsx')
+    workbook = xlsxwriter.Workbook('1C_5N1.xlsx')
     worksheet = workbook.add_worksheet()
 
     row = 0
@@ -198,8 +133,8 @@ def to_excel(array):
         
 qagent = QAgent(alpha, gamma, location_to_state, actions, rewards,  state_to_location, np.array(np.zeros([20,20])))
 store_list = []
-for i in range(10):
-  store_list.append(qagent.training('1C', '5C', 1000))
+for i in range(100): #seems to find prefered path and stick to it?
+  store_list.append(qagent.training('1C', '5N1', 1000))
 
 to_excel(store_list)
 #qagent.training('1C', '5N1', 1000)
@@ -207,7 +142,3 @@ to_excel(store_list)
 #to_excel(qagent.training('1C', '5N1', 1000))
 
 
-"""['a1', 'a2', 'a3'],
-          ['a4', 'a5', 'a6'],
-          ['a7', 'a8', 'a9'],
-          ['a10', 'a11', 'a12', 'a13', 'a14','TestingP']"""
