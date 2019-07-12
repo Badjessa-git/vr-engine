@@ -27,7 +27,7 @@
 			//Self delete
 			Entities.deleteEntity(_selfEntityID);
 		}
-		else if(message === "reading complete")
+		else if(message === "toggle lock")
 		{
 			//allow text box interactability
 			initFlag = !initFlag;
