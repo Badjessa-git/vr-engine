@@ -179,13 +179,13 @@ class QAgent():
             route.append(next_location)
             start_location = next_location
         
-        print(route)
+        #print(route)
         return route
 
 def to_excel(array):
     """store data in excel
     """
-    workbook = xlsxwriter.Workbook('arrays.xlsx')
+    workbook = xlsxwriter.Workbook('1C_5C.xlsx')
     worksheet = workbook.add_worksheet()
 
     row = 0
@@ -197,10 +197,11 @@ def to_excel(array):
         
         
 qagent = QAgent(alpha, gamma, location_to_state, actions, rewards,  state_to_location, np.array(np.zeros([20,20])))
+store_list = []
 for i in range(10):
-  to_excel(qagent.training('1C', '5N1', 1000))
-#wrong type
+  store_list.append(qagent.training('1C', '5C', 1000))
 
+to_excel(store_list)
 #qagent.training('1C', '5N1', 1000)
 #print (qagent.training('1C', '5N1', 1000))
 #to_excel(qagent.training('1C', '5N1', 1000))
