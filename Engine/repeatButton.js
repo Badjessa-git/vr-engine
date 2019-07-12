@@ -30,7 +30,7 @@
 		else if(message === "reading complete")
 		{
 			//allow text box interactability
-			initFlag = true;
+			initFlag = !initFlag;
 		}
 	});
 	//On click, entity will send its text contents to the engine, and then it will send a message to trigger deletion of all text boxes
