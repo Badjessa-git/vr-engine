@@ -123,10 +123,10 @@ def to_excel(array):
     workbook = xlsxwriter.Workbook('1C_5N1.xlsx')
     worksheet = workbook.add_worksheet()
 
-    row = 0
+    col = 0
 
-    for col, data in enumerate(array):
-        worksheet.write_column(row, col, data)
+    for row, data in enumerate(array):
+        worksheet.write_row(row, col, data)
 
     workbook.close()
         
@@ -140,5 +140,3 @@ to_excel(store_list)
 #qagent.training('1C', '5N1', 1000)
 #print (qagent.training('1C', '5N1', 1000))
 #to_excel(qagent.training('1C', '5N1', 1000))
-
-
