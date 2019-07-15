@@ -94,8 +94,7 @@ class QAgent():
             #Calculate temporal difference
             TD = rewards_new[current_state,next_state] + \
                     self.gamma * self.Q[next_state, np.argmax(self.Q[next_state,])] - self.Q[current_state,next_state]
-            #print selfQ tables
-            #compare ovetlapping Q values
+            #TODO:compare overlapping Q values, where overlap means that it encodes same policy
             #even w/o same value could encode same policy (where max/mins are)
 
             #updates Q-value using Bellman equation
