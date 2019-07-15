@@ -90,11 +90,15 @@ class QAgent():
                     playable_actions.append(j)
     
             next_state = np.random.choice(playable_actions)
+
+            #Calculate temporal difference
             TD = rewards_new[current_state,next_state] + \
                     self.gamma * self.Q[next_state, np.argmax(self.Q[next_state,])] - self.Q[current_state,next_state]
             #print selfQ tables
             #compare ovetlapping Q values
             #even w/o same value could encode same policy (where max/mins are)
+
+            #updates Q-value using Bellman equation
             self.Q[current_state,next_state] += self.alpha * TD
 
         route = [start_location]
@@ -131,12 +135,13 @@ def to_excel(array):
     workbook.close()
         
         
-qagent = QAgent(alpha, gamma, location_to_state, actions, rewards,  state_to_location, np.array(np.zeros([20,20])))
-store_list = []
-for i in range(100): #seems to find prefered path and stick to it?
-  store_list.append(qagent.training('1C', '5N1', 1000))
 
-to_excel(store_list)
+path_taken = []
+for i in range(100):
+  qagent = QAgent(alpha, gamma, location_to_state, actions, rewards,  state_to_location, np.array(np.zeros([20,20])))
+  path_taken.append(qagent.training('1C', '5N1', 1000))
+
+to_excel(path_taken)
 #qagent.training('1C', '5N1', 1000)
 #print (qagent.training('1C', '5N1', 1000))
 #to_excel(qagent.training('1C', '5N1', 1000))
