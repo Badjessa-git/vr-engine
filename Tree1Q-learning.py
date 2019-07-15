@@ -121,27 +121,37 @@ class QAgent():
         #print(route)
         return route
 
-def to_excel(array):
+#outputs 2D array
+def to_excel(paths_taken, qtables):
     """store data in excel
     """
-    workbook = xlsxwriter.Workbook('1C_5N1.xlsx')
+    workbook = xlsxwriter.Workbook('Paths_Taken.xlsx')
     worksheet = workbook.add_worksheet()
 
+    #write all paths taken into first worksheet
     col = 0
-
-    for row, data in enumerate(array):
+    for row, data in enumerate(paths_taken):
         worksheet.write_row(row, col, data)
+
+    #write each q-table to another worksheet
+    for table, data in enumerate(qtables):
+        worksheet = workbook.add_worksheet()
+        for row, data2 in enumerate(qtables[table]):
+            worksheet.write_row(row, col, data2)
 
     workbook.close()
         
-        
-
-path_taken = []
+#array to store the final optimal path of each 1000 iterations
+paths_taken = []
+#array to store the final Q-Table of each 1000 iterations
+qtables = []
 for i in range(100):
   qagent = QAgent(alpha, gamma, location_to_state, actions, rewards,  state_to_location, np.array(np.zeros([20,20])))
-  path_taken.append(qagent.training('1C', '5N1', 1000))
+  paths_taken.append(qagent.training('1C', '5N1', 1000))
+  qtables.append(qagent.Q)
 
-to_excel(path_taken)
+to_excel(paths_taken, qtables)
+
 #qagent.training('1C', '5N1', 1000)
 #print (qagent.training('1C', '5N1', 1000))
 #to_excel(qagent.training('1C', '5N1', 1000))
