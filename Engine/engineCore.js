@@ -1,8 +1,8 @@
 //Finite State Machine
 
 //Urls for animations
-var firstAnimationURL = "atp:/Animations/20190712-181953.hfr";
-var secondAnimationURL = "atp:/Animations/20190712-182011.hfr";
+var firstAnimationURL = "atp:/20190702-203823.hfr";
+var secondAnimationURL = "atp:/20190708-201920.hfr";
 
 var activeAnimationURL;
 var idleAnimationURL;
@@ -108,11 +108,41 @@ function readOptions(index)
 	}
 }
 
+//Read only one dialogue option
+	
+	sound = SoundCache.getSound(dialogueAudio[index]);
+	function playSound() 
+	{
+	    var injector = Audio.playSound(sound);
+		
+	    //connect signal to trigger next audio
+	    injector.finished.connect(function recurse()
+	    {
+	    	injector.finished.disconnect(recurse);
+	    });
+	}
+
+	function onSoundReady() 
+	{
+	    sound.ready.disconnect(onSoundReady);
+	    playSound();
+	}
+
+	if (sound.downloaded) 
+	{
+	    playSound();
+	} 
+	else 
+	{
+	    sound.ready.connect(onSoundReady);
+	}
+
 //spawn menu
 function menuSpawner(unprocessedData)
 {
 	//Send message to entity creator script
 	Messages.sendMessage("menuSystem", unprocessedData);
+	readOptions(0);
 }
 
 //----------------------------------------------------------------------------------------------------------------
@@ -136,7 +166,7 @@ function initialState()
 		//test print
 		print(message);
 		//NOTE: Names are sent in HF with quotes, hence the need to include them here
-		if(message == "\"option1\"" || message == "\"option2\"" || message == "\"option3\"" || message == "\"option4\"")
+		if(message == "\"0\"" || message == "\"1\"" || message == "\"2\"" || message == "\"3\"")
 		{
 			Messages.messageReceived.disconnect(initialStateListener);
 			state1();
@@ -166,7 +196,7 @@ function state1()
 	{
 		//test print
 		print(message);
-		if(message == "\"option1\"" || message == "\"option2\"" || message == "\"option3\"" || message == "\"option4\"")
+		if(message == "\"0\"" || message == "\"1\"" || message == "\"2\"" || message == "\"3\"")
 		{
 			Messages.messageReceived.disconnect(state1Listener);
 			state2();
@@ -196,7 +226,7 @@ function state2()
 	{
 		//test print
 		print(message);
-		if(message == "\"option1\"" || message == "\"option2\"" || message == "\"option3\"" || message == "\"option4\"")
+		if(message == "\"0\"" || message == "\"1\"" || message == "\"2\"" || message == "\"3\"")
 		{
 			Messages.messageReceived.disconnect(state2Listener);
 			state1();

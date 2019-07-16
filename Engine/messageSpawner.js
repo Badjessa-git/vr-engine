@@ -36,9 +36,9 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			text: text1,
 			position: position1,
 			rotation: rotation,
-			name: "option1",
+			name: "0",
 			dimensions: {x:1, y:0.1, z:0.1},
-			script: "atp:/textBoxScript.js"
+			script: "atp:/Scripts/textBoxScript.js"
 		};
 		
 		//Properties of message2
@@ -47,9 +47,9 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			text: text2,
 			position: position2,
 			rotation: rotation,
-			name: "option2",
+			name: "1",
 			dimensions: {x:1, y:0.1, z:0.1},
-			script: "atp:/textBoxScript.js"
+			script: "atp:/Scripts/textBoxScript.js"
 		};
 		
 		//Properties of message3
@@ -58,9 +58,9 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			text: text3,
 			position: position3,
 			rotation: rotation,
-			name: "option3",
+			name: "2",
 			dimensions: {x:1, y:0.1, z:0.1},
-			script: "atp:/textBoxScript.js"
+			script: "atp:/Scripts/textBoxScript.js"
 		};
 		
 		//Properties of message4
@@ -69,9 +69,9 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			text: text4,
 			position: position4,
 			rotation: rotation,
-			name: "option4",
+			name: "3",
 			dimensions: {x:1, y:0.1, z:0.1},
-			script: "atp:/textBoxScript.js"
+			script: "atp:/Scripts/textBoxScript.js"
 		};
 		
 		//Properties of repeatButton
@@ -82,7 +82,7 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			rotation: rotation,
 			name: "repeatButton",
 			dimensions: {x:0.5, y:0.1, z:0.1},
-			script: "atp:/repeatButton.js"
+			script: "atp:/Scripts/repeatButton.js"
 		};
 		
 		//spawn textboxes

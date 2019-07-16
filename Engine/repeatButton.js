@@ -1,4 +1,4 @@
-//script to attach to text boxes so that they send a message to the assignment client when clicked
+//script to replay reading when entity is clicked
 
 //NOTE: flag related stuff can be used to ensure that no 
 //textbox signals can be sent out under certain situations
