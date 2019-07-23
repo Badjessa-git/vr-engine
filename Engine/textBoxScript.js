@@ -29,13 +29,15 @@
 		}
 		else if(message === "toggle lock")
 		{
-			//allow text box interactability
+			//toggle text box interactability
 			initFlag = !initFlag;
 		}
 	});
 	//On click, entity will send its text contents to the engine, and then it will send a message to trigger deletion of all text boxes
 	this.mousePressOnEntity = function()
 	{
+		print("Click confirmed. initFlag = " + initFlag);
+		
 		//only allow interactability if reading is finished
 		if(initFlag)
 		{

@@ -29,11 +29,11 @@
 		}
 		else if(message === "toggle lock")
 		{
-			//allow text box interactability
+			//toggle text box interactability
 			initFlag = !initFlag;
 		}
 	});
-	//On click, entity will send its text contents to the engine, and then it will send a message to trigger deletion of all text boxes
+	//On click, entity will notify engine to re-read audio sequentially
 	this.mousePressOnEntity = function()
 	{
 		//only allow interactability if initial reading is complete

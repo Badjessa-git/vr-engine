@@ -37,7 +37,7 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			position: position1,
 			rotation: rotation,
 			name: "0",
-			dimensions: {x:1, y:0.1, z:0.1},
+			dimensions: {x:1.5, y:0.1, z:0.1},
 			script: "atp:/Scripts/textBoxScript.js"
 		};
 		
@@ -48,7 +48,7 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			position: position2,
 			rotation: rotation,
 			name: "1",
-			dimensions: {x:1, y:0.1, z:0.1},
+			dimensions: {x:1.5, y:0.1, z:0.1},
 			script: "atp:/Scripts/textBoxScript.js"
 		};
 		
@@ -59,7 +59,7 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			position: position3,
 			rotation: rotation,
 			name: "2",
-			dimensions: {x:1, y:0.1, z:0.1},
+			dimensions: {x:1.5, y:0.1, z:0.1},
 			script: "atp:/Scripts/textBoxScript.js"
 		};
 		
@@ -70,7 +70,7 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			position: position4,
 			rotation: rotation,
 			name: "3",
-			dimensions: {x:1, y:0.1, z:0.1},
+			dimensions: {x:1.5, y:0.1, z:0.1},
 			script: "atp:/Scripts/textBoxScript.js"
 		};
 		

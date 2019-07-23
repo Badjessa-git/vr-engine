@@ -9,97 +9,173 @@ Audio functions
 */
 
 /*************************STATE DEFINITIONS*************************/
-
-var initialState = {
-	//HF asset browser URL of animation to be played upon state entering
-	animationURL: "atp:/Animations/WalkTest2.hfr",
+var state1 = {
+	//ID of state to transition to next
+	transition: "state2",
 	
 	//Response options to be presented to player
 	option1: {
 		//Text to be contained within option
-		dialogue: "You are in initialState",
+		dialogue: "Do you really think that I would be stealing from you?",
 		//HF asset browser URL of voiceover for dialogue
-		audioURL: "atp:/Audio/Option1.mp3",
-		//ID of state to transition to when option is selected
-		transition: "state0"
+		audioURL: "atp:/Audio/JD1D1.mp3",
+		//HF asset browser URL of animation to be played when selected
+		animationURL: "atp:/Animations/Bill1D.hfr"
 	},
 	option2: {
-		dialogue: "option2",
-		audioURL: "atp:/Audio/Option2.mp3",
-		transition: "state0"
+		dialogue: "Yes, I just purchased this and put it in my bag.",
+		audioURL: "atp:/Audio/JD1N1.mp3",
+		animationURL: "atp:/Animations/Bill1N1.hfr"
 	},
 	option3: {
-		dialogue: "option3",
-		audioURL: "atp:/Audio/Option3.mp3",
-		transition: "state0"
+		dialogue: "I put the watch in my bag because I just bought it.",
+		audioURL: "atp:/Audio/JD1N2.mp3",
+		animationURL: "atp:/Animations/Bill1N2.hfr"
 	},
 	option4: {
-		dialogue: "option4",
-		audioURL: "atp:/Audio/Option4.mp3",
-		transition: "state0"
+		dialogue: "Yes, what do you need to verify that I purchased these?",
+		audioURL: "atp:/Audio/JD1C1.mp3",
+		animationURL: "atp:/Animations/Bill1C.hfr"
 	}
 };
 
-var state0 = {
-	animationURL: "atp:/Animations/WalkTest1.hfr",
+var state2 = {
+	transition: "state3",
 	
 	option1: {
-		dialogue: "You are in state0",
-		audioURL: "atp:/Audio/Option1.mp3",
-		transition: "state1"
+		dialogue: "Well, I’m not stealing anything from you." + 
+				  "You know what you are doing is called racial profiling.",
+		audioURL: "atp:/Audio/JD2D1.mp3",
+		animationURL: "atp:/Animations/Bill2D.hfr"
 	},
 	option2: {
-		dialogue: "option2",
-		audioURL: "atp:/Audio/Option2.mp3",
-		transition: "state1"
+		dialogue: "I did not steal anything from you. " +
+				  "I purchased this item, and I have a receipt.",
+		audioURL: "atp:/Audio/JD2N1.mp3",
+		animationURL: "atp:/Animations/Bill2N1.hfr"
 	},
 	option3: {
-		dialogue: "option3",
-		audioURL: "atp:/Audio/Option3.mp3",
-		transition: "state1"
+		dialogue: "My receipt shows that I purchased this watch. " + 
+				  "I would never steal it from your store.",
+		audioURL: "atp:/Audio/JD2N2.mp3",
+		animationURL: "atp:/Animations/Bill2N2.hfr"
 	},
 	option4: {
-		dialogue: "option4",
-		audioURL: "atp:/Audio/Option4.mp3",
-		transition: "state1"
+		dialogue: "I’m sorry if it looked like I stole something, " +
+				  "but I wouldn’t steal anything from this store.",
+		audioURL: "atp:/Audio/JD2C1.mp3",
+		animationURL: "atp:/Animations/Bill2C.hfr"
 	}
 };
 
-var state1 = {
-	animationURL: "atp:/Animations/WalkTest2.hfr",
+var state3 = {
+	transition: "state4",
 	
 	option1: {
-		dialogue: "You are in state1",
-		audioURL: "atp:/Audio/Option1.mp3",
-		transition: "state0"
+		dialogue: "I already told you that I would not " +
+				  "steal anything from here, " +
+				  "so I would appreciate it if you would stop harassing me.",
+		audioURL: "atp:/Audio/JD3D1.mp3",
+		animationURL: "atp:/Animations/Bill3D.hfr"
 	},
 	option2: {
-		dialogue: "option2",
-		audioURL: "atp:/Audio/Option2.mp3",
-		transition: "state0"
+		dialogue: "I just bought this watch a few minutes ago, " +
+				  "and have my own bag. That’s why you saw me " +
+				  "put it in there.",
+		audioURL: "atp:/Audio/JD3N1.mp3",
+		animationURL: "atp:/Animations/Bill3N1.hfr"
 	},
 	option3: {
-		dialogue: "option3",
-		audioURL: "atp:/Audio/Option3.mp3",
-		transition: "state0"
+		dialogue: "I didn’t need a store bag because I brought " +
+				  "my backpack to the store today. " +
+				  "I didn’t think it would be an issue.",
+		audioURL: "atp:/Audio/JD3N2.mp3",
+		animationURL: "atp:/Animations/Bill3N2.hfr"
 	},
 	option4: {
-		dialogue: "option4",
-		audioURL: "atp:/Audio/Option4.mp3",
-		transition: "state0"
+		dialogue: "I didn’t mean for it to look suspicious or anything. " +
+				  "I can show you my receipt right now if that would help.",
+		audioURL: "atp:/Audio/JD3C1.mp3",
+		animationURL: "atp:/Animations/Bill3C.hfr"
+	}
+};
+
+var state4 = {
+	transition: "state5",
+	
+	option1: {
+		dialogue: "Please don’t touch me or my bag. " +
+				  "I know my rights and you’re obviously breaking the law.",
+		audioURL: "atp:/Audio/JD4D1.mp3",
+		animationURL: "atp:/Animations/Bill4D.hfr"
+	},
+	option2: {
+		dialogue: "As I said, I just purchased these. " +
+				  "There is no need to check me or my bag.",
+		audioURL: "atp:/Audio/JD4N1.mp3",
+		animationURL: "atp:/Animations/Bill4N1.hfr"
+	},
+	option3: {
+		dialogue: "I just purchased this watch, " +
+				  "and you can check the security camera if you need proof.",
+		audioURL: "atp:/Audio/JD4N2.mp3",
+		animationURL: "atp:/Animations/Bill4N2.hfr"
+	},
+	option4: {
+		dialogue: "You can look in my bag if you’d like, " +
+				  "but I don’t think it’s necessary to search me.",
+		audioURL: "atp:/Audio/JD4C1.mp3",
+		animationURL: "atp:/Animations/Bill4C.hfr"
+	}
+};
+
+var state5 = {
+	//TODO: Change transition to a final state
+	//and handle restart of simulation
+	transition: "state1",
+	
+	option1: {
+		dialogue: "Are you kidding me? Go ahead and call the police " +
+				  "so I can tell them how you won’t stop harassing me ",
+		audioURL: "atp:/Audio/JD5D1.mp3",
+		animationURL: "atp:/Animations/Bill5D.hfr"
+	},
+	option2: {
+		dialogue: "I am sure we can figure this out without the police " +
+				  "getting involved. There has to be another way to solve this.",
+		audioURL: "atp:/Audio/JD5N1.mp3",
+		animationURL: "atp:/Animations/Bill5N1.hfr"
+	},
+	option3: {
+		dialogue: "No need to call the police and make a scene in the store. " +
+				  "I’m sure you and I can work this out. ",
+		audioURL: "atp:/Audio/JD5N2.mp3",
+		animationURL: "atp:/Animations/Bill5N2.hfr"
+	},
+	option4: {
+		dialogue: "Ok, I’ll go to the back, but I really do have a receipt. " +
+				  "I didn’t mean for this to cause a scene.",
+		audioURL: "atp:/Audio/JD5C1.mp3",
+		animationURL: "atp:/Animations/Bill5C.hfr"
 	}
 };
 
 //Declare ID-state mappings
 var stateMap = {
-	"initialState": initialState,
-	"state0": state0,
-	"state1": state1
+	"state1": state1,
+	"state2": state2,
+	"state3": state3,
+	"state4": state4,
+	"state5": state5
 };
 
 /*************************BASIC SETUP*************************/
 //activeState will be referenced by the main controller function
-var activeState = initialState;
+var activeState = state1;
+
+//Initialize animation URLs
+var initialAnimationURL = "atp:/Animations/Bill1.hfr";
+var animationURL = initialAnimationURL;
 
 //specify counter to keep track of animation cycles
 var count = 0;
@@ -110,23 +186,13 @@ var initFlag = true;
 Messages.subscribe("engine");
 
 //Start the program:
-executeState();
+executeStateHelper();
 
 /*************************EXECUTE STATE*************************/
 function executeState()
 {
 	//log
 	print("State transition complete");
-	
-	//set animation parameters and play animation
-	if(initFlag)
-	{
-		initialAnimationHelper();
-	}
-	else
-	{
-		animationHelper();
-	}
 
 	//listen for message to trigger transition
 	Messages.messageReceived.connect(function stateListener(channel, message, senderID, localOnly)
@@ -138,27 +204,27 @@ function executeState()
 		{
 			case "\"0\"": //NOTE: Names are sent in HF with quotes, hence the need to include them here
 				Messages.messageReceived.disconnect(stateListener);
-				//If first option is selected, set activeState to the transition found under the current state's option1
+				//If first option is selected, play the associated audio and set animation
 				playAudio(activeState.option1.audioURL);
-				activeState = stateMap[activeState.option1.transition];
+				animationURL = activeState.option1.animationURL;
 				executeStateHelper();
 				break;
 			case "\"1\"":
 				Messages.messageReceived.disconnect(stateListener);
 				playAudio(activeState.option2.audioURL);
-				activeState = stateMap[activeState.option2.transition];
+				animationURL = activeState.option2.animationURL;
 				executeStateHelper();
 				break;
 			case "\"2\"":
 				Messages.messageReceived.disconnect(stateListener);
 				playAudio(activeState.option3.audioURL);
-				activeState = stateMap[activeState.option3.transition];
+				animationURL = activeState.option3.animationURL;
 				executeStateHelper();
 				break;
 			case "\"3\"":
 				Messages.messageReceived.disconnect(stateListener);
 				playAudio(activeState.option4.audioURL);
-				activeState = stateMap[activeState.option4.transition];
+				animationURL = activeState.option4.animationURL;
 				executeStateHelper();
 				break;
 			case "repeatAudio":
@@ -169,17 +235,30 @@ function executeState()
 	});
 }
 
-//starts execution of next state after reading of dialogue has finished
+//handles all post/pre-processing of events for each state
 function executeStateHelper()
-{
-	Messages.messageReceived.connect(function check(channel, message, senderID, localOnly)
+{	
+	//If in initial state, play the animation and transition to next state
+	if(initFlag)
 	{
-		if(message === "audioFinished")
+		initialAnimationHelper();
+	}
+	else
+	{
+		Messages.messageReceived.connect(function check(channel, message, senderID, localOnly)
 		{
-			Messages.messageReceived.disconnect(check);
-			executeState();
-		}
-	});
+			if(message === "audioFinished")
+			{
+				Messages.messageReceived.disconnect(check);
+			
+				//Set activeState to next state in list
+				activeState = stateMap[activeState.transition];
+			
+				//Play animation from previous state, spawn current state menu, and execute next state
+				animationHelper();
+			}
+		});
+	}
 }
 
 //sends message to the interface script menuSpawner.js (should be found in running scripts in HF)
@@ -216,8 +295,9 @@ function play()
 	//log
 	print("animation controller called");
 	
+	//Set animation parameters
 	var PLAYBACK_CHANNEL = "playbackChannel";
-	Recording.loadRecording(activeState.animationURL);
+	Recording.loadRecording(animationURL);
 
 	Recording.setPlayFromCurrentLocation(false);
 	Recording.setPlayerUseDisplayName(true);
@@ -225,18 +305,23 @@ function play()
 	Recording.setPlayerUseSkeletonModel(true);
 
 	Agent.isAvatar = true;
+	//start recording
 	if (!Recording.isPlaying())
 	{
 		Recording.setPlayerTime(0.0);
 		Recording.startPlaying();
 		count++;
 		
+		//if play function has been called too many times, disconnect and stop animation
 		if(count > 2)
 		{ 
 			Script.update.disconnect(play);
-			menuSpawner(activeState.option1.dialogue, activeState.option2.dialogue, activeState.option3.dialogue, activeState.option4.dialogue);
 			Recording.stopPlaying();
 			count = 0;
+			
+			//spawn menu and then execute state
+			menuSpawner(activeState.option1.dialogue, activeState.option2.dialogue, activeState.option3.dialogue, activeState.option4.dialogue);
+			executeState();
 		}
 	}
 }
