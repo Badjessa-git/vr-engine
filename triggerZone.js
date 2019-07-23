@@ -1,5 +1,5 @@
 
-
+//Attach to invisable zone entity & on collision (entry of zone) will trigger animation by sending trigger message
 (function() {
   
   
