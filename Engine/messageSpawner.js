@@ -1,4 +1,6 @@
 //Interface script to spawn interactable menus
+//NOTE: You can find entity properties at
+//"https://apidocs.highfidelity.com/Entities.html#.EntityProperties-Text"
 
 //This channel will receive text values to display in text boxes
 Messages.subscribe("menuSystem");
@@ -34,10 +36,13 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 		var properties1 = {
 			type: "Text",
 			text: text1,
+			textAlpha: 0.8,
 			position: position1,
 			rotation: rotation,
 			name: "0",
 			dimensions: {x:1.5, y:0.1, z:0.1},
+			BillboardMode: "yaw",
+			userData: "{ \"grabbableKey\": { \"grabbable\": false } }",
 			script: "atp:/Scripts/textBoxScript.js"
 		};
 		
@@ -45,10 +50,13 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 		var properties2 = {
 			type: "Text",
 			text: text2,
+			textAlpha: 0.8,
 			position: position2,
 			rotation: rotation,
 			name: "1",
 			dimensions: {x:1.5, y:0.1, z:0.1},
+			BillboardMode: "yaw",
+			userData: "{ \"grabbableKey\": { \"grabbable\": false } }",
 			script: "atp:/Scripts/textBoxScript.js"
 		};
 		
@@ -56,10 +64,13 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 		var properties3 = {
 			type: "Text",
 			text: text3,
+			textAlpha: 0.8,
 			position: position3,
 			rotation: rotation,
 			name: "2",
 			dimensions: {x:1.5, y:0.1, z:0.1},
+			BillboardMode: "yaw",
+			userData: "{ \"grabbableKey\": { \"grabbable\": false } }",
 			script: "atp:/Scripts/textBoxScript.js"
 		};
 		
@@ -67,10 +78,13 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 		var properties4 = {
 			type: "Text",
 			text: text4,
+			textAlpha: 0.8,
 			position: position4,
 			rotation: rotation,
 			name: "3",
 			dimensions: {x:1.5, y:0.1, z:0.1},
+			BillboardMode: "yaw",
+			userData: "{ \"grabbableKey\": { \"grabbable\": false } }",
 			script: "atp:/Scripts/textBoxScript.js"
 		};
 		
@@ -82,6 +96,8 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			rotation: rotation,
 			name: "repeatButton",
 			dimensions: {x:0.5, y:0.1, z:0.1},
+			BillboardMode: "yaw",
+			userData: "{ \"grabbableKey\": { \"grabbable\": false } }",
 			script: "atp:/Scripts/repeatButton.js"
 		};
 		
