@@ -24,13 +24,20 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 	if(flag === "check")
 	{
 		//set up orientation and positions for the text boxes
-		var rotation = MyAvatar.orientation;
-		var basePosition = Vec3.sum(MyAvatar.position, Quat.getFront(rotation));
+		
+		var rotation = {"x":0,"y":0.9189745187759399,"z":0,"w":-0.3943169116973877};
+		var basePosition = {x:1.8786, y:0.46, z:-2.2622};
+		//These lines make the text boxes spawn directly in front of user
+		//var rotation = MyAvatar.orientation;
+		//var basePosition = Vec3.sum(MyAvatar.position, Quat.getFront(rotation));
+		
 		var position1 = Vec3.sum(basePosition, {x:0, y:0.75, z:0});
 		var position2 = Vec3.sum(basePosition, {x:0, y:0.5, z:0});
 		var position3 = Vec3.sum(basePosition, {x:0, y:0.25, z:0});
 		var position4 = basePosition;
 		var repeatButtonPosition = Vec3.sum(basePosition, {x:0, y:-0.25, z:0});
+		var dimensions = {x:2, y:0.15, z:0.1};
+		var lineHeight = 0.075;
 		
 		//Properties of message1
 		var properties1 = {
@@ -38,10 +45,10 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			text: text1,
 			textAlpha: 0.8,
 			position: position1,
-			rotation: rotation,
+			localRotation: rotation,
 			name: "0",
-			dimensions: {x:1.5, y:0.1, z:0.1},
-			BillboardMode: "yaw",
+			dimensions: dimensions,
+			lineHeight: lineHeight,
 			userData: "{ \"grabbableKey\": { \"grabbable\": false } }",
 			script: "atp:/Scripts/textBoxScript.js"
 		};
@@ -52,10 +59,10 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			text: text2,
 			textAlpha: 0.8,
 			position: position2,
-			rotation: rotation,
+			localRotation: rotation,
 			name: "1",
-			dimensions: {x:1.5, y:0.1, z:0.1},
-			BillboardMode: "yaw",
+			dimensions: dimensions,
+			lineHeight: lineHeight,
 			userData: "{ \"grabbableKey\": { \"grabbable\": false } }",
 			script: "atp:/Scripts/textBoxScript.js"
 		};
@@ -66,10 +73,10 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			text: text3,
 			textAlpha: 0.8,
 			position: position3,
-			rotation: rotation,
+			localRotation: rotation,
 			name: "2",
-			dimensions: {x:1.5, y:0.1, z:0.1},
-			BillboardMode: "yaw",
+			dimensions: dimensions,
+			lineHeight: lineHeight,
 			userData: "{ \"grabbableKey\": { \"grabbable\": false } }",
 			script: "atp:/Scripts/textBoxScript.js"
 		};
@@ -80,10 +87,10 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			text: text4,
 			textAlpha: 0.8,
 			position: position4,
-			rotation: rotation,
+			localRotation: rotation,
 			name: "3",
-			dimensions: {x:1.5, y:0.1, z:0.1},
-			BillboardMode: "yaw",
+			dimensions: dimensions,
+			lineHeight: lineHeight,
 			userData: "{ \"grabbableKey\": { \"grabbable\": false } }",
 			script: "atp:/Scripts/textBoxScript.js"
 		};
@@ -93,10 +100,9 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			type: "Text",
 			text: "Repeat Audio",
 			position: repeatButtonPosition,
-			rotation: rotation,
+			localRotation: rotation,
 			name: "repeatButton",
 			dimensions: {x:0.5, y:0.1, z:0.1},
-			BillboardMode: "yaw",
 			userData: "{ \"grabbableKey\": { \"grabbable\": false } }",
 			script: "atp:/Scripts/repeatButton.js"
 		};

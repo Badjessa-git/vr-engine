@@ -1,7 +1,5 @@
-//script to replay reading when entity is clicked
+//This script controls the replay button
 
-//NOTE: flag related stuff can be used to ensure that no 
-//textbox signals can be sent out under certain situations
 (function()
 {
 	//set up entity id storage

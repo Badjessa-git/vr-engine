@@ -1,7 +1,5 @@
-//script to attach to dialogue text boxes
+//This client entity script controls the dialogue text boxes
 
-//NOTE: flag related stuff can be used to ensure that no 
-//textbox signals can be sent out under certain situations
 (function()
 {
 	//set up entity id storage
@@ -9,6 +7,8 @@
 
 	//set flag to tell when reading is finished
 	var initFlag = false;
+	//set flag to tell if box has been clicked
+	var clickFlag = false;
 	
 	//Stores entity id on creation
 	this.preload = function(entityID) 
@@ -32,6 +32,13 @@
 			//toggle text box interactability
 			initFlag = !initFlag;
 		}
+		else if(message === "unhighlight")
+		{
+			//unhighlight this box
+			Entities.editEntity(_selfEntityID, {textAlpha: 0.5, textColor: {r:255, g:255, b:255}});
+			//unset clickFlag
+			clickFlag = false;
+		}
 	});
 	//On click, entity will send its text contents to the engine, and then it will send a message to trigger deletion of all text boxes
 	this.mousePressOnEntity = function()
@@ -41,13 +48,27 @@
 		//only allow interactability if reading is finished
 		if(initFlag)
 		{
-			//Send message to engine to confirm selection
-			var textProp = Entities.getEntityProperties(_selfEntityID, ["name"]);
-			textProp = JSON.stringify(textProp.name);
-			Messages.sendMessage("engine",textProp);
-			
-			//Send deletion notice on local channel
-			Messages.sendMessage("deletionNotice", "delete", true);
+			//if box has been highlighted, confirm selection
+			if(clickFlag)
+			{
+				//Send message to engine to confirm selection
+				var textProp = Entities.getEntityProperties(_selfEntityID, ["name"]);
+				textProp = JSON.stringify(textProp.name);
+				Messages.sendMessage("engine",textProp);
+				
+				//Send deletion notice on local channel
+				Messages.sendMessage("deletionNotice", "delete", true);
+			}
+			//else, highlight box
+			else
+			{
+				//unhighlight all other boxes
+				Messages.sendMessage("readingNotice", "unhighlight", true);
+				//highlight this box
+				Entities.editEntity(_selfEntityID, {textAlpha: 1.0, textColor: {r:255, g:255, b:0}});
+				//set clickFlag
+				clickFlag = true;
+			}
 		}
 	};
 });

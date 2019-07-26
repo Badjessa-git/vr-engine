@@ -1,3 +1,5 @@
+//This assignment client script contains all logic to control the store manager,
+//as well as all the logic that progresses through the simulation's states
 /*
 CONTENTS
 
@@ -279,7 +281,6 @@ function menuSpawner(dialogue1, dialogue2, dialogue3, dialogue4)
 //to circumvent this issue.
 function initialAnimationHelper()
 {
-	initFlag = false;
 	Script.update.connect(play);
 }
 
@@ -299,7 +300,15 @@ function play()
 	var PLAYBACK_CHANNEL = "playbackChannel";
 	Recording.loadRecording(animationURL);
 
-	Recording.setPlayFromCurrentLocation(false);
+	if(initFlag)
+	{
+		print("set to play from current loc");
+		Recording.setPlayFromCurrentLocation(false);
+	}
+	else
+	{
+		Recording.setPlayFromCurrentLocation(true);
+	}
 	Recording.setPlayerUseDisplayName(true);
 	Recording.setPlayerUseAttachments(true);
 	Recording.setPlayerUseSkeletonModel(true);
@@ -317,6 +326,7 @@ function play()
 		{ 
 			Script.update.disconnect(play);
 			Recording.stopPlaying();
+			initFlag = false;
 			count = 0;
 			
 			//spawn menu and then execute state
