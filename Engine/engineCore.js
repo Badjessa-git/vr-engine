@@ -175,9 +175,11 @@ var stateMap = {
 //activeState will be referenced by the main controller function
 var activeState = state1;
 
-//Initialize animation URLs
-var initialAnimationURL = "atp:/Animations/Bill1.hfr";
-var animationURL = initialAnimationURL;
+//Initialize stateless animation URLs
+var firstManagerURL = "atp:/Animations/Bill1.hfr";
+var clerkIdleURL = "atp:/Animations/ClerkIdle.hfr";
+var clerkRingUpURL = "atp:/Animations/RingUp.hfr";
+var animationURL = firstManagerURL;
 
 //specify counter to keep track of animation cycles
 var count = 0;
@@ -191,6 +193,56 @@ Messages.subscribe("engine");
 executeStateHelper();
 
 /*************************EXECUTE STATE*************************/
+//handles all post/pre-processing of events for each state
+function executeStateHelper()
+{	
+	//If in initial state, play the animation and transition to next state
+	if(initFlag)
+	{
+		initialAnimationHelper();
+		
+		Messages.messageReceived.connect(function checkAnimation(channel, message, senderID, localOnly)
+		{
+			if(message === "animationFinished")
+			{						
+				Messages.messageReceived.disconnect(checkAnimation);
+				
+				//spawn menu and then execute state
+				menuSpawner(activeState.option1.dialogue, activeState.option2.dialogue, activeState.option3.dialogue, activeState.option4.dialogue);
+				executeState();
+			}
+		});
+	}
+	else
+	{
+		Messages.messageReceived.connect(function checkAudio(channel, message, senderID, localOnly)
+		{
+			if(message === "audioFinished")
+			{
+				Messages.messageReceived.disconnect(checkAudio);
+			
+				//Set activeState to next state in list
+				activeState = stateMap[activeState.transition];
+			
+				//Play animation from previous state
+				animationHelper();
+				
+				Messages.messageReceived.connect(function checkAnimation(channel, message, senderID, localOnly)
+				{
+					if(message === "animationFinished")
+					{						
+						Messages.messageReceived.disconnect(checkAnimation);
+						
+						//spawn menu and then execute state
+						menuSpawner(activeState.option1.dialogue, activeState.option2.dialogue, activeState.option3.dialogue, activeState.option4.dialogue);
+						executeState();
+					}
+				});
+			}
+		});
+	}
+}
+
 function executeState()
 {
 	//log
@@ -237,32 +289,6 @@ function executeState()
 	});
 }
 
-//handles all post/pre-processing of events for each state
-function executeStateHelper()
-{	
-	//If in initial state, play the animation and transition to next state
-	if(initFlag)
-	{
-		initialAnimationHelper();
-	}
-	else
-	{
-		Messages.messageReceived.connect(function check(channel, message, senderID, localOnly)
-		{
-			if(message === "audioFinished")
-			{
-				Messages.messageReceived.disconnect(check);
-			
-				//Set activeState to next state in list
-				activeState = stateMap[activeState.transition];
-			
-				//Play animation from previous state, spawn current state menu, and execute next state
-				animationHelper();
-			}
-		});
-	}
-}
-
 //sends message to the interface script menuSpawner.js (should be found in running scripts in HF)
 //containing the 4 dialogue options for the new state, then read all dialogue options
 function menuSpawner(dialogue1, dialogue2, dialogue3, dialogue4)
@@ -292,17 +318,13 @@ function animationHelper()
 
 //play animation
 function play()
-{
-	//log
-	print("animation controller called");
-	
+{	
 	//Set animation parameters
 	var PLAYBACK_CHANNEL = "playbackChannel";
 	Recording.loadRecording(animationURL);
 
 	if(initFlag)
 	{
-		print("set to play from current loc");
 		Recording.setPlayFromCurrentLocation(false);
 	}
 	else
@@ -329,9 +351,8 @@ function play()
 			initFlag = false;
 			count = 0;
 			
-			//spawn menu and then execute state
-			menuSpawner(activeState.option1.dialogue, activeState.option2.dialogue, activeState.option3.dialogue, activeState.option4.dialogue);
-			executeState();
+			//Notify rest of engine that animation has completed
+			Messages.sendMessage("engine", "animationFinished");
 		}
 	}
 }
