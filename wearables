@@ -1,0 +1,57 @@
+//tree to attach an entity to to an avatar's wrists on click
+
+
+{
+  "equipHotspots": [
+    {
+      "joints": {
+        "LeftHand": [
+          {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          {
+            "w": 1,
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "RightHand": [
+          {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          {
+            "w": 1,
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        ]
+      },
+      "modelScale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "modelURL": "",
+      "position": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "radius": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    }
+  ],
+  "grabbableKey": {
+    "eqippable": true,
+    "grabbble": true
+  }
+}
