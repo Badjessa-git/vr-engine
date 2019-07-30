@@ -179,18 +179,68 @@ var activeState = state1;
 var firstManagerURL = "atp:/Animations/Bill1.hfr";
 var clerkIdleURL = "atp:/Animations/ClerkIdle.hfr";
 var clerkRingUpURL = "atp:/Animations/RingUp.hfr";
-var animationURL = firstManagerURL;
+var animationURL = clerkIdleURL;
 
 //specify counter to keep track of animation cycles
 var count = 0;
 //this flag keeps track of whether it is currently the initial state
 var initFlag = true;
 
+//Flag to keep track of whether the clerk's looping idle animation is playing
+var clerkFlag = true;
+
 //Subscribe to message channel to receive notices from other scripts
 Messages.subscribe("engine");
 
+//TEST
+Messages.sendMessage("zoneSpawner", "spawnThresholdZone");
+Messages.sendMessage("zoneSpawner", "spawnCashierZone");
+
 //Start the program:
-executeStateHelper();
+settingScene();
+
+/*************************STARTING LOGIC*************************/
+//Handles store clerk animation logic and merchandize/zone related transitions
+function settingScene()
+{
+	//Play clerk idle animation on loop
+	initialAnimationHelper();
+	
+	//Listen for message indicating user has entered cashier zone
+	Messages.messageReceived.connect(function checkAnimation(channel, message, senderID, localOnly)
+	{
+		if(message === "\"cashierZone\"")
+		{	
+			//Change clerk flag so that animation only plays once,
+			//and then play clerk ringup animation
+			clerkFlag = false;
+			animationURL = clerkRingUpURL;
+			
+			animationHelper();
+		}
+		//Replay clerk idle after ringup animation
+		else if(message === "animationFinished")
+		{
+			
+			clerkFlag = true;
+			animationURL = clerkIdleURL;
+			
+			animationHelper();
+		}
+		//When returning to main room, begin manager
+		else if(message === "\"thresholdZone\"")
+		{
+			Messages.messageReceived.disconnect(checkAnimation);
+			
+			initFlag = true;
+			clerkFlag = false;
+			animationURL = firstManagerURL;
+			
+			executeStateHelper();
+		}
+	});
+}
+
 
 /*************************EXECUTE STATE*************************/
 //handles all post/pre-processing of events for each state
@@ -199,7 +249,7 @@ function executeStateHelper()
 	//If in initial state, play the animation and transition to next state
 	if(initFlag)
 	{
-		initialAnimationHelper();
+		animationHelper();
 		
 		Messages.messageReceived.connect(function checkAnimation(channel, message, senderID, localOnly)
 		{
@@ -344,15 +394,18 @@ function play()
 		count++;
 		
 		//if play function has been called too many times, disconnect and stop animation
-		if(count > 2)
+		if(count > 1)
 		{ 
-			Script.update.disconnect(play);
-			Recording.stopPlaying();
-			initFlag = false;
+			if(!clerkFlag)
+			{
+				Script.update.disconnect(play);
+				Recording.stopPlaying();
+				initFlag = false;
+				
+				//Notify rest of engine that animation has completed
+				Messages.sendMessage("engine", "animationFinished");
+			}
 			count = 0;
-			
-			//Notify rest of engine that animation has completed
-			Messages.sendMessage("engine", "animationFinished");
 		}
 	}
 }
