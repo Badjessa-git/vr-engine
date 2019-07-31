@@ -22,7 +22,7 @@
 	Messages.subscribe("readingNotice");
 	Messages.messageReceived.connect(function (channel, message, senderID, localOnly) 
 	{
-		if(message === "delete")
+		if(message === "deleteMenu")
 		{
 			//Self delete
 			Entities.deleteEntity(_selfEntityID);
@@ -57,7 +57,9 @@
 				Messages.sendMessage("engine",textProp);
 				
 				//Send deletion notice on local channel
-				Messages.sendMessage("deletionNotice", "delete", true);
+				Messages.sendMessage("deletionNotice", "deleteMenu", true);
+				//Delete instructions
+				Messages.sendMessage("instructionNotify", "delete");
 			}
 			//else, highlight box
 			else

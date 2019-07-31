@@ -20,7 +20,7 @@
 	Messages.subscribe("readingNotice");
 	Messages.messageReceived.connect(function (channel, message, senderID, localOnly) 
 	{
-		if(message === "delete")
+		if(message === "deleteMenu")
 		{
 			//Self delete
 			Entities.deleteEntity(_selfEntityID);

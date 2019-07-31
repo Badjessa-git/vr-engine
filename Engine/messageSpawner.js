@@ -23,6 +23,9 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 	//Check if message is from engine
 	if(flag === "check")
 	{
+		//log
+		print("spawning message");
+		
 		//set up orientation and positions for the text boxes
 		
 		var rotation = {"x":0,"y":0.9189745187759399,"z":0,"w":-0.3943169116973877};
