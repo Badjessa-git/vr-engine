@@ -183,18 +183,15 @@ var animationURL = clerkIdleURL;
 
 //specify counter to keep track of animation cycles
 var count = 0;
-//this flag keeps track of whether it is currently the initial state
+//this flag keeps track of whether the animation is the first animation for that character
 var initFlag = true;
-
-//Flag to keep track of whether the clerk's looping idle animation is playing
-var clerkFlag = true;
 
 //Subscribe to message channel to receive notices from other scripts
 Messages.subscribe("engine");
 
 //TEST
-Messages.sendMessage("zoneSpawner", "spawnThresholdZone");
 Messages.sendMessage("zoneSpawner", "spawnCashierZone");
+Messages.sendMessage("shelfWatchSpawner", "spawnShelfWatches");
 
 //Start the program:
 settingScene();
@@ -203,44 +200,61 @@ settingScene();
 //Handles store clerk animation logic and merchandize/zone related transitions
 function settingScene()
 {
-	//Play clerk idle animation on loop
+	//Play clerk idle animation
 	initialAnimationHelper();
 	
 	//Listen for message indicating user has entered cashier zone
-	Messages.messageReceived.connect(function checkAnimation(channel, message, senderID, localOnly)
+	Messages.messageReceived.connect(function checkClerk(channel, message, senderID, localOnly)
 	{
 		if(message === "\"cashierZone\"")
 		{	
-			//Change clerk flag so that animation only plays once,
-			//and then play clerk ringup animation
-			clerkFlag = false;
+			//Stop listening for cashier zone
+			Messages.messageReceived.disconnect(checkClerk);
+			
+			//Highlight watches
+			Messages.sendMessage("shelfWatchNotify", "highlight");
+			
+			//play clerk ringup animation
 			animationURL = clerkRingUpURL;
-			
 			animationHelper();
+			
+			//Listen for animation finished
+			Messages.messageReceived.connect(function checkAnimation(channel, message, senderID, localOnly)
+			{
+				if(message === "animationFinished")
+				{
+					Messages.messageReceived.disconnect(checkAnimation);
+					
+					//Spawn watch selection
+					Messages.sendMessage("watchSpawner", "spawnWatches");
+				}
+			});
 		}
-		//Replay clerk idle after ringup animation
-		else if(message === "animationFinished")
+	});
+	
+	//Listen for when a watch is selected
+	Messages.messageReceived.connect(function checkWatch(channel, message, senderID, localOnly)
+	{
+		if(message === "watchSelected")
 		{
+			Messages.messageReceived.disconnect(checkWatch);
 			
-			clerkFlag = true;
-			animationURL = clerkIdleURL;
-			
-			animationHelper();
-		}
-		//When returning to main room, begin manager
-		else if(message === "\"thresholdZone\"")
-		{
-			Messages.messageReceived.disconnect(checkAnimation);
-			
-			initFlag = true;
-			clerkFlag = false;
-			animationURL = firstManagerURL;
-			
-			executeStateHelper();
+			//start listening for thresholdZone notice, when received trigger manager
+			Messages.messageReceived.connect(function checkThreshold(channel, message, senderID, localOnly)
+			{
+				if(message === "\"thresholdZone\"")
+				{
+					Messages.messageReceived.disconnect(checkThreshold);
+					
+					initFlag = true;
+					animationURL = firstManagerURL;
+					
+					executeStateHelper();
+				}
+			});
 		}
 	});
 }
-
 
 /*************************EXECUTE STATE*************************/
 //handles all post/pre-processing of events for each state
@@ -371,7 +385,7 @@ function play()
 {	
 	//Set animation parameters
 	var PLAYBACK_CHANNEL = "playbackChannel";
-	Recording.loadRecording(animationURL);
+
 
 	if(initFlag)
 	{
@@ -384,28 +398,32 @@ function play()
 	Recording.setPlayerUseDisplayName(true);
 	Recording.setPlayerUseAttachments(true);
 	Recording.setPlayerUseSkeletonModel(true);
+	
+	Recording.loadRecording(animationURL);
 
 	Agent.isAvatar = true;
 	//start recording
 	if (!Recording.isPlaying())
 	{
-		Recording.setPlayerTime(0.0);
-		Recording.startPlaying();
-		count++;
-		
 		//if play function has been called too many times, disconnect and stop animation
 		if(count > 1)
 		{ 
-			if(!clerkFlag)
-			{
-				Script.update.disconnect(play);
-				Recording.stopPlaying();
-				initFlag = false;
-				
-				//Notify rest of engine that animation has completed
-				Messages.sendMessage("engine", "animationFinished");
-			}
-			count = 0;
+			//test print
+			print("stopping animation");
+	
+			Script.update.disconnect(play);
+			Recording.stopPlaying();
+			
+			initFlag = false;
+			
+			//Notify rest of engine that animation has completed
+			Messages.sendMessage("engine", "animationFinished");
+		}
+		else
+		{
+			Recording.setPlayerTime(0.0);
+			Recording.startPlaying();
+			count++;
 		}
 	}
 }
