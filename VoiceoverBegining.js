@@ -1,4 +1,4 @@
-
+//NOTE: This needs to be re-written, recommend implementing inside engineCore instead
 
 //sets scene before interaction with Manager
 Messages.subscribe("checkOut");
