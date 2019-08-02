@@ -9,7 +9,6 @@ function play(sound_url, time){
 			position: MyAvatar.position
 		};
 		var injector = Audio.playSound(sound_url, injectorOptions);
-		
 	}
 
 	function onSoundReady() {
