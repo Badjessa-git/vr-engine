@@ -1,38 +1,36 @@
 //Subscribe to channel to listen for commands to spawn zones
 Messages.subscribe("shelfWatchSpawner");
 
-//prep positions for watches to spawn (TEMPORARY SETUP)
-var basePosition = {x: -2.8120, y: 0.6982, z: 1.3256};
-var position1 = Vec3.sum(basePosition, {x:-0.25, y:0, z:0});
-var position2 = Vec3.sum(basePosition, {x:0.25, y:0, z:0});
-
 //set properties of watches
 var watch1Props = {
-	type: "Box",
-	position: position1,
-	localRotation: {"x":0,"y":0,"z":0,"w":0},
+	type: "Model",
+	modelURL: "atp:/Models/RedWatch.fbx",
+	position: {x: -2.2982, y: 0.7962, z: 3.5750},
+	localRotation: {"x":0,"y":180,"z":0,"w":0},
 	name: "watch0",
-	dimensions: {x: 0.1, y: 0.1, z: 0.1},
+	dimensions: {x: 0.0811, y: 0.0360, z: 0.0450},
 	userData: "{ \"grabbableKey\": { \"grabbable\": false } }",
 	script: "atp:/Scripts/shelfWatchScript.js"
 };
 
 var watch2Props = {
-	type: "Box",
-	position: basePosition,
-	localRotation: {"x":0,"y":0,"z":0,"w":0},
+	type: "Model",
+	modelURL: "atp:/Models/FlatWatch.fbx",
+	position: {x: -2.0534, y: 0.7825, z: 3.5749},
+	localRotation: {"x":0,"y":1,"z":0,"w":0.25},
 	name: "watch1",
-	dimensions: {x: 0.1, y: 0.1, z: 0.1},
+	dimensions: {x: 0.0498, y: 0.0077, z: 0.2390},
 	userData: "{ \"grabbableKey\": { \"grabbable\": false } }",
 	script: "atp:/Scripts/shelfWatchScript.js"
 };
 		
 var watch3Props = {
-	type: "Box",
-	position: position2,
-	localRotation: {"x":0,"y":0,"z":0,"w":0},
+	type: "Model",
+	modelURL: "atp:/Models/WatchTest.FBX",
+	position: {x: -2.5428, y: 0.7993, z: 3.5749},
+	localRotation: {"x":0,"y":180,"z":0,"w":0},
 	name: "watch2",
-	dimensions: {x: 0.1, y: 0.1, z: 0.1},
+	dimensions: {x: 0.1040, y: 0.0841, z: 0.1021},
 	userData: "{ \"grabbableKey\": { \"grabbable\": false } }",
 	script: "atp:/Scripts/shelfWatchScript.js"
 };

@@ -9,33 +9,36 @@ var position1 = Vec3.sum(basePosition, {x:-0.25, y:0, z:0});
 var position2 = Vec3.sum(basePosition, {x:0.25, y:0, z:0});
 var instructionPos = Vec3.sum(basePosition, {x:0, y:0.5, z:0});
 
-//set properties of watches (For now, 3 placeholder cubes)
+//set properties of watches
 var watch1Props = {
-	type: "Box",
+	type: "Model",
+	modelURL: "atp:/Models/RedWatch.fbx",
 	position: position1,
-	localRotation: {"x":0,"y":0,"z":0,"w":0},
-	name: "watch0",
-	dimensions: {x: 0.1, y: 0.1, z: 0.1},
+	localRotation: {"x":0,"y":90,"z":0,"w":0},
+	name: "watch1",
+	dimensions: {x: 0.0811, y: 0.0360, z: 0.0450},
 	userData: "{ \"grabbableKey\": { \"grabbable\": false } }",
 	script: "atp:/Scripts/watchScript.js"
 };
 
 var watch2Props = {
-	type: "Box",
+	type: "Model",
+	modelURL: "atp:/Models/FlatWatch.fbx",
 	position: basePosition,
 	localRotation: {"x":0,"y":0,"z":0,"w":0},
 	name: "watch1",
-	dimensions: {x: 0.1, y: 0.1, z: 0.1},
+	dimensions: {x: 0.0498, y: 0.0077, z: 0.2390},
 	userData: "{ \"grabbableKey\": { \"grabbable\": false } }",
 	script: "atp:/Scripts/watchScript.js"
 };
 		
 var watch3Props = {
-	type: "Box",
+	type: "Model",
+	modelURL: "atp:/Models/WatchTest.FBX",
 	position: position2,
-	localRotation: {"x":0,"y":0,"z":0,"w":0},
+	localRotation: {"x":0,"y":180,"z":0,"w":0},
 	name: "watch2",
-	dimensions: {x: 0.1, y: 0.1, z: 0.1},
+	dimensions: {x: 0.1040, y: 0.0841, z: 0.1021},
 	userData: "{ \"grabbableKey\": { \"grabbable\": false } }",
 	script: "atp:/Scripts/watchScript.js"
 };

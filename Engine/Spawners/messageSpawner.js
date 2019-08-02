@@ -38,6 +38,7 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 		var position2 = Vec3.sum(basePosition, {x:0, y:0.5, z:0});
 		var position3 = Vec3.sum(basePosition, {x:0, y:0.25, z:0});
 		var position4 = basePosition;
+		var instructionPos = var position3 = Vec3.sum(basePosition, {x:0, y:1, z:0});
 		var repeatButtonPosition = Vec3.sum(basePosition, {x:0, y:-0.25, z:0});
 		var dimensions = {x:2, y:0.15, z:0.1};
 		var lineHeight = 0.075;
@@ -110,11 +111,24 @@ Messages.messageReceived.connect(function (channel, unprocessedData, senderID, l
 			script: "atp:/Scripts/repeatButton.js"
 		};
 		
+		//Properties of instructionBox
+		var instructionProps = {
+			type: "Text",
+			text: "Please select a response.",
+			position: ,
+			localRotation: {"x":0,"y":1,"z":0,"w":0},
+			name: "watchInstructions",
+			dimensions: {x: 1, y: 0.1, z: 0.1},
+			userData: "{ \"grabbableKey\": { \"grabbable\": false } }",
+			script: "atp:/Scripts/instructionBoxScript.js"
+		};
+		
 		//spawn textboxes
 		var textBoxID1 = Entities.addEntity(properties1);
 		var textBoxID2 = Entities.addEntity(properties2);
 		var textBoxID3 = Entities.addEntity(properties3);
 		var textBoxID4 = Entities.addEntity(properties4);
+		var instructionID = Entities.addEntity(instructionProps);
 		var repeatButtonID = Entities.addEntity(repeatButtonProps);
 	}
 });
