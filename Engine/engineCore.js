@@ -178,7 +178,9 @@ var activeState = state1;
 //Initialize stateless animation URLs
 var firstManagerURL = "atp:/Animations/Bill1.hfr";
 var clerkIdleURL = "atp:/Animations/ClerkIdle.hfr";
-var clerkRingUpURL = "atp:/Animations/RingUp.hfr";
+var clerk1URL = "atp:/Animations/Clerk1.hfr";
+var clerk2URL = "atp:/Animations/Clerk2.hfr";
+var clerk3URL = "atp:/Animations/Clerk3.hfr";
 var animationURL = clerkIdleURL;
 
 //specify counter to keep track of animation cycles
@@ -189,8 +191,7 @@ var initFlag = true;
 //Subscribe to message channel to receive notices from other scripts
 Messages.subscribe("engine");
 
-//TEST
-Messages.sendMessage("zoneSpawner", "spawnCashierZone");
+//TODO: MOVE TO RESET SYSTEM WHEN RESET SYSTEM IS IMPLEMENTED
 Messages.sendMessage("shelfWatchSpawner", "spawnShelfWatches");
 
 //Start the program:
@@ -203,6 +204,9 @@ function settingScene()
 	//Play clerk idle animation
 	initialAnimationHelper();
 	
+	//Highlight watches
+	Messages.sendMessage("shelfWatchNotify", "highlight");
+	
 	//Listen for message indicating user has entered cashier zone
 	Messages.messageReceived.connect(function checkClerk(channel, message, senderID, localOnly)
 	{
@@ -211,11 +215,8 @@ function settingScene()
 			//Stop listening for cashier zone
 			Messages.messageReceived.disconnect(checkClerk);
 			
-			//Highlight watches
-			Messages.sendMessage("shelfWatchNotify", "highlight");
-			
-			//play clerk ringup animation
-			animationURL = clerkRingUpURL;
+			//play clerk discussion animation
+			animationURL = clerk1URL;
 			animationHelper();
 			
 			//Listen for animation finished
@@ -232,26 +233,55 @@ function settingScene()
 		}
 	});
 	
-	//Listen for when a watch is selected
+	//Listen for when a watch is selected to purchase
 	Messages.messageReceived.connect(function checkWatch(channel, message, senderID, localOnly)
 	{
 		if(message === "watchSelected")
 		{
 			Messages.messageReceived.disconnect(checkWatch);
 			
-			//start listening for thresholdZone notice, when received trigger manager
-			Messages.messageReceived.connect(function checkThreshold(channel, message, senderID, localOnly)
+			//play clerk ringup animation
+			animationURL = clerk2URL;
+			animationHelper();
+			
+			//Listen for animation finished
+			Messages.messageReceived.connect(function checkAnimation(channel, message, senderID, localOnly)
 			{
-				if(message === "\"thresholdZone\"")
+				if(message === "animationFinished")
 				{
-					Messages.messageReceived.disconnect(checkThreshold);
+					Messages.messageReceived.disconnect(checkAnimation);
 					
-					initFlag = true;
-					animationURL = firstManagerURL;
-					
-					executeStateHelper();
+					//Spawn payment options
+					Messages.sendMessage("paymentOptionSpawner", "spawnPaymentOptions");
 				}
 			});
+		}
+	});
+	
+	//Listen for payment option selection
+	Messages.messageReceived.connect(function checkPayment(channel, message, senderID, localOnly)
+	{
+		if(message === "paymentProcessed")
+		{
+			Messages.messageReceived.disconnect(checkPayment);
+			
+			//play clerk animation prompting user to take watch from other room
+			animationURL = clerk3URL;
+			animationHelper();
+		}
+	});
+	
+	//Listen for thresholdZone notice, when received trigger manager
+	Messages.messageReceived.connect(function checkThreshold(channel, message, senderID, localOnly)
+	{
+		if(message === "\"thresholdZone\"")
+		{
+			Messages.messageReceived.disconnect(checkThreshold);
+			
+			initFlag = true;
+			animationURL = firstManagerURL;
+			
+			executeStateHelper();
 		}
 	});
 }
