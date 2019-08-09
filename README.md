@@ -14,3 +14,5 @@ Engine: Contains all the scripts responsible for making the simulation run
   -Spawners: Contains all scripts that are responsible for spawning the various interactible entities into the environment.
   
 Reference_Scripts: Contains all the code snippets that were either just for testing purposes or ended up incomplete. Not much value in this folder aside from a reference point for some of the scripts we learned from.
+
+Documentation: Contains all the information on high fidelity that we gathered through reading and experimentation.
